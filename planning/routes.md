@@ -1,12 +1,12 @@
 Browse, Read, Edit, Add, Delete
 
-B   GET            /users              Login screen
-R   GET            /users/:id          user’s home screen
-R   GET            /users/:id/maps     a user's maps?
-R   GET            /users/:id/pins     a user's pins?
-E   POST OR PATCH  /users/:id          edit user
-A   POST           /users              add new user
-D   POST           /users/:id/delete   delete user
+B   GET            /users             Login screen
+R   GET            /users/:id         user’s home screen
+R   GET            /users/:id/maps    a user's maps?
+R   GET            /users/:id/pins    a user's pins?
+E   POST OR PATCH  /users/:id         edit user
+A   POST           /users             add new user
+D   POST           /users/:id/delete  delete user
 
 B   GET            /maps              home screen of public maps
 R   GET            /maps/:id          view single map
