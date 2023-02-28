@@ -27,3 +27,53 @@ body {
     rgba(163, 208, 219, 1) 100%
   );
 }
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    border-radius: 50%;
+  }
+
+  .user {
+    display: flex;
+    flex-direction: column;
+
+    .name {
+      display: flex;
+      justify-content: center;
+      margin-top: 1em;
+      margin-bottom: 0;
+
+    }
+    .email {
+      display: flex;
+      justify-content: center;
+      margin-top: 1em;
+
+    }
+  }
+
+}
+
+#user-links {
+  display: flex;
+  flex-direction: column;
+
+  div {
+    display:flex;
+    justify-content: flex-start;
+    padding-bottom: 0.5em;
+  }
+
+  i {
+    width: 35px;
+    padding-right: 0.5em;
+    padding-left: 0.5em;
+    text-align: center;
+
+  }
+}
