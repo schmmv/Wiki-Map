@@ -1,4 +1,6 @@
 let map, infoWindow;
+
+
 const vancouver = { lat: 49.2578262, lng: -123.1941156 };
 const ubc = { lat: 49.26410715655254, lng: -123.24569741813465};
 
@@ -9,7 +11,7 @@ function initMap() {
   });
 
   map.addListener("click", (e) => {
-    placeMarkerAndPanTo(e.latLng, map);
+    addPin(e.latLng, map);
   });
 
 
@@ -38,7 +40,7 @@ function initMap() {
 
           // infoWindow.setPosition(pos);
           // infoWindow.setContent("Location found.");
-          infoWindow.open(map);
+          // infoWindow.open(map);
           map.setCenter(pos);
         },
         () => {
@@ -62,13 +64,39 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
 }
 
-function placeMarkerAndPanTo(latLng, map) {
-  new google.maps.Marker({
+// User-Added Marker Function
+const addPin = function (latLng, map) {
+  // Populates an infoWindow with a form
+  // write an HTML file with this in it and then add AJAX GET request to url
+  let formString = '<div id="form">' +
+  '<form>' +
+  '<label for="name">Name:</label><br>' +
+  '<input type="text" id="Name" name="name"><br>' +
+  '<label for="pinDescription">What makes it special:</label><br>' +
+  '<input type="text" id="description" name="description">' +
+  '</form>';
+  // Add POST AJAX request to pin api to add to database
+  let pin = new google.maps.Marker({
     position: latLng,
     map: map,
   });
   map.panTo(latLng);
+  pin.addListener("click", () => {
+    infoWindow.setContent(formString);
+    infoWindow.open({
+      anchor: pin,
+      map,
+    });
+
+  });
 }
+
+
+
+
+
+
+
 
 
 window.initMap = initMap;
