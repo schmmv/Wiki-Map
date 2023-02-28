@@ -8,6 +8,11 @@ function initMap() {
     zoom: 12,
   });
 
+  map.addListener("click", (e) => {
+    placeMarkerAndPanTo(e.latLng, map);
+  });
+
+
   const marker = new google.maps.Marker({
     position: ubc,
     map: map,
@@ -57,6 +62,13 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   infoWindow.open(map);
 }
 
+function placeMarkerAndPanTo(latLng, map) {
+  new google.maps.Marker({
+    position: latLng,
+    map: map,
+  });
+  map.panTo(latLng);
+}
 
 
 window.initMap = initMap;
