@@ -24,31 +24,16 @@ router.get('/pins', (req, res) => {
 });
 
 
-// router.post('/pins', (req, res) => {
-//   pinQueries.addPin()
-//   // look up how to do the request object
-//     .then(pins => {
-//       res.json({ pins });
-//     })
-//     .catch(err => {
-//       res
-//         .status(500)
-//         .json({ error: err.message });
-//     });
-// });
-module.exports = router;
-
-// look at this for help
 router.post('/pins', (req, res) => {
-  const userId = req.session.userId;
-  database.addPin({...req.body, owner_id: userId})
-    .then(property => {
-      res.send(property);
-    })
-    .catch(e => {
-      console.error(e);
-      res.send(e)
-    });
+  // const userId = req.session.userId;
+  database.addPin({...req.body})
+  .then(pin => {
+    res.send(pin);
+  })
+  .catch(e => {
+    console.error(e);
+    res.send(e)
+  });
 });
 
-return router;
+module.exports = router;
