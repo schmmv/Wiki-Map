@@ -128,16 +128,20 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 }
 
 // User-Added Marker Function
+// Add AJAX call that retrieves /pindrop.html
 const addPin = function (latLng, map) {
   // Populates an infoWindow with a form
   // write an HTML file with this in it and then add AJAX GET request to url
-  let formString = '<div id="form">' +
+  let formString = '<div id="pindrop-form">' +
   '<form>' +
   '<label for="name">Name:</label><br>' +
-  '<input type="text" id="Name" name="name"><br>' +
+  '<input type="text" id="Name" name="name"><br><br>' +
   '<label for="pinDescription">What makes it special:</label><br>' +
-  '<input type="text" id="description" name="description">' +
-  '</form>';
+  '<input type="text" id="description" name="description"><br><br>' +
+  '</form>' +
+  '<button type="submit" form="pindrop-form" value="Submit">Save Pin</button>' +
+  '<button type="button" form="pindrop-form" value="Submit">Cancel</button>'
+  ;
   // Add POST AJAX request to pin api to add to database
   let pin = new google.maps.Marker({
     position: latLng,
