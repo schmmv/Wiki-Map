@@ -132,7 +132,7 @@ const addPin = function (latLng, map) {
   // Populates an infoWindow with a form
   // write an HTML file with this in it and then add AJAX GET request to url
   let formString = '<div id="pindrop-form">' +
-  '<form>' +
+  '<form method="POST" action="/pins">' +
   '<label for="name">Name:</label><br>' +
   '<input type="text" id="Name" name="name"><br><br>' +
   '<label for="pinDescription">What makes it special:</label><br>' +
