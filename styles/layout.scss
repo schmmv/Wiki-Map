@@ -1,6 +1,8 @@
 // See: https://sass-lang.com/
+@import '_helpers.scss';
 
 body,
 html {
   margin: 0;
+  font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
