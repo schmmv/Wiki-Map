@@ -157,6 +157,8 @@ const addPin = function (latLng, map) {
   });
 }
 
+exports.addPin = addPin;
+
 
 
 
