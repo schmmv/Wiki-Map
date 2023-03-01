@@ -9,6 +9,7 @@ function initMap() {
     center: vancouver,
     zoom: 12,
   });
+
   // Create the search box and link it to the UI element.
   const input = document.getElementById("places-search");
   const searchBox = new google.maps.places.SearchBox(input);
@@ -21,8 +22,7 @@ function initMap() {
 
   let markers = [];
 
-  // Listen for the event fired when the user selects a prediction and retrieve
-  // more details for that place.
+  // Listen for the event fired when the user selects a prediction and retrieve more details for that place.
   searchBox.addListener("places_changed", () => {
     const places = searchBox.getPlaces();
 
@@ -76,7 +76,6 @@ function initMap() {
   map.addListener("click", (e) => {
     addPin(e.latLng, map);
   });
-
 
   // const marker = new google.maps.Marker({
   //   position: ubc,
