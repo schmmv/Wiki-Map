@@ -8,4 +8,6 @@ const getPins = (user) => {
     });
 };
 
+// const addPins =
+
 module.exports = { getPins };
