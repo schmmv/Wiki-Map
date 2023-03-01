@@ -12,15 +12,35 @@
   <link rel="stylesheet" href="/vendor/border-box.css" />
   <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/scripts/users.js"></script>
 </head>
 
 <body>
-  <h1>Users</h1>
-  <button id="fetch-users">Fetch Users via AJAX</button>
-  <ul id="users"></ul>
+  <header class="profile-header" >
+    <div class="picture">
+      <img src="https://picsum.photos/id/103/100" alt="avatar">
+    </div>
+    <div class="user">
+      <h3 class="name"><%= user.name %></h3>
+      <h5 class="email"><%= user.email %></h5>
+    </div>
+  </header>
+  <div id="user-links">
+      <div class="user-pins">
+        <span><i class="fa-solid fa-map-pin"></i>My Pins</span>
+      </div>
+      <div class="user-maps">
+        <span><i class="fa-solid fa-globe"></i>My Maps</span>
+      </div>
+      <div class="favourites">
+        <span><i class="fa-solid fa-heart"></i>Favourites</span>
+      </div>
+       <div class="favourites">
+        <span><i class="fa-solid fa-magnifying-glass"></i>Find a Map</span>
+      </div>
+  </div>
 </body>
 
 </html>
