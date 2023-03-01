@@ -131,16 +131,15 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 const addPin = function (latLng, map) {
   // Populates an infoWindow with a form
   // write an HTML file with this in it and then add AJAX GET request to url
-  let formString = '<div id="pindrop-form">' +
-  '<form method="POST" action="/pins">' +
-  '<label for="name">Name:</label><br>' +
-  '<input type="text" id="Name" name="name"><br><br>' +
-  '<label for="pinDescription">What makes it special:</label><br>' +
-  '<input type="text" id="description" name="description"><br><br>' +
-  '</form>' +
-  '<button type="submit" form="pindrop-form" value="Submit">Save Pin</button>' +
-  '<button type="button" form="pindrop-form" value="Submit">Cancel</button>'
-  ;
+  // let formString = '<form id="pindrop-form" method="POST" action="/api/pins">' +
+  // '<label for="name">Name:</label><br>' +
+  // '<input type="text" id="Name" name="name"><br><br>' +
+  // '<label for="pinDescription">What makes it special:</label><br>' +
+  // '<input type="text" id="description" name="description"><br><br>' +
+  // '</form>' +
+  // '<button type="submit" form="pindrop-form" value="Submit">Save Pin</button>' +
+  // '<button type="button" form="pindrop-form" value="Submit">Cancel</button>'
+  // ;
   // Add POST AJAX request to pin api to add to database
   let pin = new google.maps.Marker({
     position: latLng,
@@ -148,7 +147,7 @@ const addPin = function (latLng, map) {
   });
   map.panTo(latLng);
   pin.addListener("click", () => {
-    infoWindow.setContent(formString);
+    infoWindow.setContent($pinDropForm);
     infoWindow.open({
       anchor: pin,
       map,
