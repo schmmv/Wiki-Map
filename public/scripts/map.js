@@ -87,7 +87,7 @@ function initMap() {
   infoWindow = new google.maps.InfoWindow();
   // create Show Current Location button to geolocate users
   const locationButton = document.createElement("button");
-  locationButton.textContent = "Show Current Location";
+  locationButton.textContent = "Pan to Current Location";
   locationButton.classList.add("custom-map-control-button");
   map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
   locationButton.addEventListener("click", () => {
