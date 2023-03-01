@@ -24,9 +24,9 @@ router.get('/pins', (req, res) => {
 });
 
 
-router.post('/pins', (req, res) => {
+router.post('/api/pins', (req, res) => {
   // const userId = req.session.userId;
-  database.addPin({...req.body})
+  db.addPinToDb({...req.body})
   .then(pin => {
     res.send(pin);
   })
