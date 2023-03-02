@@ -10,7 +10,7 @@ const router  = express.Router();
 const db = require('../db/queries/users');
 
 router.get('/:id', (req, res) => {
-  const userID = req.params.id;
+  const userID = req.session.user_id;
   db.getUserById(userID)
   .then(user => {
     return res.render('users',{ user });
