@@ -78,12 +78,6 @@ function initMap() {
     addPin(e.latLng, map);
   });
 
-  // const marker = new google.maps.Marker({
-  //   position: ubc,
-  //   map: map,
-  //   title: 'UBC'
-  // });
-
   infoWindow = new google.maps.InfoWindow();
   // create Show Current Location button to geolocate users
   const locationButton = document.createElement("button");
@@ -132,6 +126,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 const addPin = function (latLng, map) {
   // Populates an infoWindow with a form
   // write an HTML file with this in it and then add AJAX GET request to url
+
   // let formString = '<form id="pindrop-form" method="POST" action="/api/pins">' +
   // '<label for="name">Name:</label><br>' +
   // '<input type="text" id="Name" name="name"><br><br>' +
