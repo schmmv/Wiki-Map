@@ -1,5 +1,7 @@
 // load .env data into process.env
 require('dotenv').config();
+const db = require('./db/queries/users');
+
 
 // Web server config
 const sassMiddleware = require('./lib/sass-middleware');
@@ -51,9 +53,19 @@ app.use('/users', usersRoutes);
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
+// do this instead
+app.get('/login/:id', (req, res) => {
+  // using encrypted cookies
+  req.session.user_id = req.params.id;
+  res.redirect('/');
+});
 
 app.get('/', (req, res) => {
-  res.render('index');
+  const userID = req.session.user_id;
+  db.getUserById(userID)
+  .then(user => {
+    return res.render('index',{ user });
+  })
 });
 
 app.listen(PORT, () => {
