@@ -1,6 +1,5 @@
 // load .env data into process.env
 require('dotenv').config();
-const db = require('./db/queries/users');
 
 
 // Web server config
@@ -64,10 +63,7 @@ app.get('/login/:id', (req, res) => {
 
 app.get('/', (req, res) => {
   const userID = req.session.user_id;
-  db.getUserById(userID)
-  .then(user => {
-    return res.render('index',{ user });
-  })
+  res.render('index', { user: {id: userID} });
 });
 
 app.listen(PORT, () => {
