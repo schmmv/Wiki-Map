@@ -16,4 +16,4 @@ const getPins = () => {
 // };
 
 
-module.exports = { getPins, addPin };
+module.exports = { getPins };
