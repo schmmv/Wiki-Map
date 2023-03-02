@@ -8,7 +8,8 @@ const getPins = (user) => {
     });
 };
 
-
+// this function is what inserts the pin form data into the pins database
+// the create function is used in routes/pins-api.js
 const create = function (pin) {
   console.log(pin);
   const queryParams = [

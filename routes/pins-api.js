@@ -7,12 +7,12 @@
 
 const express = require('express');
 const router  = express.Router();
-const pinQueries = require('../db/queries/pins');
+const pins = require('../db/queries/pins');
 
 // we might want to add a /mypins route?
 // and we might want to see all the pins in an area
 router.get('/', (req, res) => {
-  pinQueries.getPins()
+  pins.getPins()
     .then(pins => {
       res.json({ pins });
     })
@@ -27,8 +27,12 @@ router.get('/', (req, res) => {
 router.post('/', (req, res) => {
   // const userId = req.session.userId;
   console.log(req.body);
-  pinQueries.create({...req.body})
+  // the create function comes from db/queries/pins.js
+  pins.create({...req.body})
   .then(pin => {
+    console.log('pin response:', pin);
+    // sends the HTTP response. parameter describes the body to be send in the response.
+    // it returns an object
     res.send(pin);
   })
   .catch(e => {
