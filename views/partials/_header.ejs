@@ -2,7 +2,15 @@
   <nav class="navbar">
     <a class="navbar-brand" href="/">WikiMap</a>
     <div class="navbar-profile">
-      <button class="home-btn"><i class="fa-solid fa-house"></i></button>
+      <% if (user) { %>
+
+        <button class="home-btn"><i class="fa-solid fa-house"></i></button>
+      <% } else { %>
+        <!-- Will log in as Alice, user 1  -->
+        <form>
+          <button type="submit" formaction="/login/1">Login</button>
+       </form>
+      <% } %>
     </div>
   </nav>
 
