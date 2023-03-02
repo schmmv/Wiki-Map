@@ -11,7 +11,7 @@ const pinQueries = require('../db/queries/pins');
 
 // we might want to add a /mypins route?
 // and we might want to see all the pins in an area
-router.get('/pins', (req, res) => {
+router.get('/', (req, res) => {
   pinQueries.getPins()
     .then(pins => {
       res.json({ pins });
@@ -24,9 +24,10 @@ router.get('/pins', (req, res) => {
 });
 
 
-router.post('/api/pins', (req, res) => {
+router.post('/', (req, res) => {
   // const userId = req.session.userId;
-  db.addPinToDb({...req.body})
+  console.log(req.body);
+  pinQueries.create({...req.body})
   .then(pin => {
     res.send(pin);
   })
