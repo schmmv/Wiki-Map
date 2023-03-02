@@ -16,4 +16,16 @@ const getUserById = function(id) {
       return data.rows[0];
     });
 }
-module.exports = { getUsers, getUserById };
+
+const getMapsByUserId = function(id) {
+  return db.query(`
+    SELECT maps.title, user_id
+    FROM users
+    JOIN maps ON users.id = user_id
+    WHERE user_id = $1`, [id])
+    .then(data => {
+      console.log(data.rows);
+      return data.rows;
+    });
+}
+module.exports = { getUsers, getUserById, getMapsByUserId };
