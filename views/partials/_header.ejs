@@ -3,8 +3,9 @@
     <a class="navbar-brand" href="/">WikiMap</a>
     <div class="navbar-profile">
       <% if (user) { %>
-
-        <button class="home-btn"><i class="fa-solid fa-house"></i></button>
+        <form>
+          <button class="home-btn" type="submit" formaction="/users/<%= user.id %>"><i class="fa-solid fa-house"></i></button>
+        </form>
       <% } else { %>
         <!-- Will log in as Alice, user 1  -->
         <form>
