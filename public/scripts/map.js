@@ -8,6 +8,7 @@ function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: vancouver,
     zoom: 12,
+    mapId: 'DEMO_MAP_ID'
   });
 
   // Create the search box and link it to the UI element.
@@ -77,12 +78,6 @@ function initMap() {
     addPin(e.latLng, map);
   });
 
-  // const marker = new google.maps.Marker({
-  //   position: ubc,
-  //   map: map,
-  //   title: 'UBC'
-  // });
-
   infoWindow = new google.maps.InfoWindow();
   // create Show Current Location button to geolocate users
   const locationButton = document.createElement("button");
@@ -131,36 +126,73 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
 const addPin = function (latLng, map) {
   // Populates an infoWindow with a form
   // write an HTML file with this in it and then add AJAX GET request to url
-  let formString = '<div id="pindrop-form">' +
-  '<form>' +
-  '<label for="name">Name:</label><br>' +
-  '<input type="text" id="Name" name="name"><br><br>' +
-  '<label for="pinDescription">What makes it special:</label><br>' +
-  '<input type="text" id="description" name="description"><br><br>' +
-  '</form>' +
-  '<button type="submit" form="pindrop-form" value="Submit">Save Pin</button>' +
-  '<button type="button" form="pindrop-form" value="Submit">Cancel</button>'
-  ;
+
+  // let formString = '<form id="pindrop-form" method="POST" action="/api/pins">' +
+  // '<label for="name">Name:</label><br>' +
+  // '<input type="text" id="Name" name="name"><br><br>' +
+  // '<label for="pinDescription">What makes it special:</label><br>' +
+  // '<input type="text" id="description" name="description"><br><br>' +
+  // '</form>' +
+  // '<button type="submit" form="pindrop-form" value="Submit">Save Pin</button>' +
+  // '<button type="button" form="pindrop-form" value="Submit">Cancel</button>'
+  // ;
   // Add POST AJAX request to pin api to add to database
   let pin = new google.maps.Marker({
     position: latLng,
     map: map,
   });
   map.panTo(latLng);
+  console.log(latLng);
   pin.addListener("click", () => {
-    infoWindow.setContent(formString);
-    infoWindow.open({
-      anchor: pin,
+    // the click needs to access pinDropForm
+    const advancedMarkerView = new google.maps.marker.AdvancedMarkerView({
       map,
+      content: buildContent(),
+      position: latLng,
+      title: "hello world"
     });
-
   });
 }
 
 
+function buildContent(position) {
+  const content = document.createElement("div");
+
+  content.classList.add("pin");
+  content.innerHTML = `
+  <form id="pindrop-form" = method="POST" action="/api/pins">
+    <input type="hidden" name="lat" value="${position.lat}">
+    <input type="hidden" name="lng" value="${position.lng}">
+    <label for="name">Name:</label><br>
+    <input type="text" id="Name" name="name"><br><br>
+    <label for="pinDescription">What makes it special:</label><br>
+    <input type="text" id="description" name="description"><br><br>
+  </form>
+  <button type="submit" form="pindrop-form" value="Submit">Save Pin</button>
+  <button type="button" form="pindrop-form" value="Submit">Cancel</button>
+  `;
+  return content;
+}
+
+// $(() => {
 
 
+//   window.$pinDropForm = $pinDropForm;
 
+//   $pinDropForm.on('submit', function (e) {
+//     e.preventDefault();
+
+//     const data = $(this).serialize();
+//     submitPinInfo(data)
+//     .then((json) => {
+//       update(json.data);
+//     })
+//     .catch((error) => {
+//       console.error(error);
+//     })
+//   });
+
+// });
 
 
 
