@@ -160,12 +160,14 @@ const addPin = function (latLng, map) {
 }
 
 
-function buildContent(property) {
+function buildContent(position) {
   const content = document.createElement("div");
 
   content.classList.add("pin");
   content.innerHTML = `
   <form id="pindrop-form" = method="POST" action="/api/pins">
+    <input type="hidden" name="lat" value="${position.lat}">
+    <input type="hidden" name="lng" value="${position.lng}">
     <label for="name">Name:</label><br>
     <input type="text" id="Name" name="name"><br><br>
     <label for="pinDescription">What makes it special:</label><br>
