@@ -32,16 +32,16 @@
   </header>
   <div id="user-links">
       <div class="user-pins">
-        <span><i class="fa-solid fa-map-pin"></i>My Pins</span>
+        <span><i class="fa-solid fa-map-pin"></i><a href="/api/users/<%= user.id %>/pins">My Pins</a></span>
       </div>
       <div class="user-maps">
-        <span><i class="fa-solid fa-globe"></i>My Maps</span>
+        <span><i class="fa-solid fa-globe"></i><a href="/api/users/<%= user.id %>/maps">My Maps</a></span>
       </div>
       <div class="favourites">
-        <span><i class="fa-solid fa-heart"></i>Favourites</span>
+        <span><i class="fa-solid fa-heart"></i><a href="/favourites/<%= user.id %>">Favourites</a></span>
       </div>
        <div class="favourites">
-        <span><i class="fa-solid fa-magnifying-glass"></i>Find a Map</span>
+        <span><i class="fa-solid fa-magnifying-glass"></i><a href="/">Find a Map</a></span>
       </div>
   </div>
 </body>
