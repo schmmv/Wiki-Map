@@ -19,4 +19,12 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/:id/maps', (req, res) => {
+  const userID = req.session.user_id;
+
+  userQueries.getMapsByUserId(userID)
+    .then(maps => {
+      res.render('my_maps', { maps, user: {id: userID } });
+    });
+})
 module.exports = router;
