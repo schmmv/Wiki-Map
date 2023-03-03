@@ -2,7 +2,7 @@
   <nav class="navbar">
     <a class="navbar-brand" href="/">WikiMap</a>
     <div class="navbar-profile">
-      <% if (user) { %>
+      <% if (user.id) { %>
         <form>
           <button class="home-btn" type="submit" formaction="/users/<%= user.id %>"><i class="fa-solid fa-house"></i></button>
         </form>
