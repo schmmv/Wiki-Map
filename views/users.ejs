@@ -40,8 +40,13 @@
       <div class="favourites">
         <span><i class="fa-solid fa-heart"></i><a href="/favourites/<%= user.id %>">Favourites</a></span>
       </div>
-       <div class="favourites">
+       <div class="find-maps">
         <span><i class="fa-solid fa-magnifying-glass"></i><a href="/">Find a Map</a></span>
+      </div>
+      <div class="logout">
+        <form method="POST" action="/logout">
+          <button type="submit">Logout</button>
+        </form>
       </div>
   </div>
 </body>
