@@ -2,8 +2,8 @@ Browse, Read, Edit, Add, Delete
 
 B   GET            /users             Login screen
 R   GET            /users/:id         user’s home screen
-R   GET            /users/:id/maps    a user's maps?
-R   GET            /users/:id/pins    a user's pins?
+R   GET            /api/users/:id/maps    a user's maps
+R   GET            /api/users/:id/pins    a user's pins
 E   POST OR PATCH  /users/:id         edit user
 A   POST           /users             add new user
 D   POST           /users/:id/delete  delete user
@@ -21,7 +21,7 @@ A   POST           /pins              add a pin
 D   POST           /pins/:id/delete   delete a pin
 
 B   GET            /favourites        redir to home screen of public maps
-R   GET            /favourites/:id    a favourite? or the user's favourites?
+R   GET            /favourites/:id    user's favourites
 E   POST or PATCH  /favourites/:id    edit a favourite
 A   POST           /favourites        add a favourite
 D   POST           /favourites/:id    delete a favourite

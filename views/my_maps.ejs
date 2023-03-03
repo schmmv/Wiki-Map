@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>Users</title>
+  <title>My Maps</title>
 
   <meta charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
@@ -12,38 +12,38 @@
   <link rel="stylesheet" href="/vendor/border-box.css" />
   <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/myMaps.css" />
   <link rel="stylesheet" href="/styles/header.css" />
+
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script defer src="/scripts/users.js"></script>
+  <!-- update -->
 </head>
 
 <body>
   <%- include('partials/_header') %>
-  <header class="profile-header" >
-    <div class="picture">
-      <img src="https://picsum.photos/id/103/100" alt="avatar">
-    </div>
-    <div class="user">
-      <h3 class="name"><%= user.name %></h3>
-      <h5 class="email"><%= user.email %></h5>
-    </div>
-  </header>
-  <div id="user-links">
-      <div class="user-pins">
-        <span><i class="fa-solid fa-map-pin"></i><a href="/api/users/<%= user.id %>/pins">My Pins</a></span>
-      </div>
-      <div class="user-maps">
-        <span><i class="fa-solid fa-globe"></i><a href="/api/users/<%= user.id %>/maps">My Maps</a></span>
-      </div>
-      <div class="favourites">
-        <span><i class="fa-solid fa-heart"></i><a href="/favourites/<%= user.id %>">Favourites</a></span>
-      </div>
-       <div class="favourites">
-        <span><i class="fa-solid fa-magnifying-glass"></i><a href="/">Find a Map</a></span>
-      </div>
-  </div>
+  <h1>My Maps</h1>
+  <main class="container">
+
+      <section class="cards-container">
+          <% for (let map in maps) { %>
+          <div class="card">
+            <img src="https://picsum.photos/100" alt="trial image">
+              <!-- <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= maps[map].latitude %>,<%= maps[map].longitude %>&zoom=<%= maps[map].zoom %>&size=200x200&key=AIzaSyCl71N9D-01p0RFxUxmSkcBOnbiZzFN8iA" alt="map-img"> -->
+
+              <div class="card-text">
+                <h5 class="card-title"><%= maps[map].title %></h5>
+              </div>
+          </div>
+          <% } %>
+        </section>
+
+    <section class="container-my-favs">
+
+    </section>
+</main>
 </body>
 
 </html>
