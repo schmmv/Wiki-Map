@@ -37,10 +37,9 @@ body {
   min-height: 100vh;
 
   background: $green;
-
-
 }
 
+//user-landing-page
 .profile-header {
   display: flex;
   flex-direction: column;
@@ -78,10 +77,12 @@ body {
   display: flex;
   flex-direction: column;
   color: $beige;
+
   div {
     display:flex;
     justify-content: flex-start;
     padding-bottom: 0.5em;
+
   }
 
   i {
@@ -89,6 +90,12 @@ body {
     padding-right: 0.5em;
     padding-left: 0.5em;
     text-align: center;
+    color: $brown;
 
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
   }
 }
