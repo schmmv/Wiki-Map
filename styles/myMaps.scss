@@ -1,0 +1,33 @@
+@import '_helpers.scss';
+
+
+  .cards-container {
+    display: flex;
+
+
+    .card {
+      margin: {
+        right: 10px;
+        left: 10px;
+      }
+
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 1rem 1rem 0.5rem;
+      background: $beige;
+      box-shadow: 0 0 40px rgba(0, 0, 0, 0.2), 0 0 40px rgba(0, 0, 0, 0.2);
+      border-radius: 4px;
+
+
+      .card-text {
+        display: flex;
+        justify-content: center;
+
+        h5 {
+          margin: 1em;
+        }
+      }
+    }
+  }
+
