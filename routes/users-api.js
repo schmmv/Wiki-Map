@@ -24,7 +24,7 @@ router.get('/:id/maps', (req, res) => {
 
   userQueries.getMapsByUserId(userID)
     .then(maps => {
-      res.render('my_maps', { maps, user: {id: userID } });
+      return res.render('my_maps', { maps, user: {id: userID } });
     });
 })
 module.exports = router;
