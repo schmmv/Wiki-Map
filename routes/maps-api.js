@@ -1,3 +1,4 @@
+//mounted on /api/maps
 const express = require('express');
 const router  = express.Router();
 const mapsQueries = require('../db/queries/maps');
