@@ -65,6 +65,10 @@ app.get('/', (req, res) => {
   const userID = req.session.user_id;
   res.render('index', { user: {id: userID} });
 });
+app.post('/logout', (req, res) => {
+  req.session = null;
+  res.redirect('/');
+});
 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
