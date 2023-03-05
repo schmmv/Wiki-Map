@@ -35,13 +35,13 @@
         <span><i class="fa-solid fa-map-pin"></i><a href="/api/users/<%= user.id %>/pins">My Pins</a></span>
       </div>
       <div class="user-maps">
-        <span><i class="fa-solid fa-globe"></i><a href="/api/users/<%= user.id %>/maps">My Maps</a></span>
+        <span><i class="fa-solid fa-globe"></i><a href="/users/<%= user.id %>/maps">My Maps</a></span>
       </div>
       <div class="favourites">
-        <span><i class="fa-solid fa-heart"></i><a href="/favourites/<%= user.id %>">Favourites</a></span>
+        <span><i class="fa-solid fa-heart"></i><a href="/users/<%= user.id %>/favourites">Favourites</a></span>
       </div>
        <div class="all-maps">
-        <span><i class="fa-solid fa-magnifying-glass"></i><a href="/api/maps">Find a Map</a></span>
+        <span><i class="fa-solid fa-magnifying-glass"></i><a href="/maps">Find a Map</a></span>
        </div>
       <div class="logout">
         <form method="POST" action="/logout">

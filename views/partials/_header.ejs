@@ -2,9 +2,9 @@
   <nav class="navbar">
     <a class="navbar-brand" href="/">WikiMap</a>
     <div class="navbar-profile">
-      <% if (user.id) { %>
+      <% if (user) { %>
         <form>
-          <button class="home-btn" type="submit" formaction="/users/<%= user.id %>"><i class="fa-solid fa-house"></i></button>
+          <button class="home-btn" type="submit" formaction="/users/<%= user %>"><i class="fa-solid fa-house"></i></button>
         </form>
       <% } else { %>
         <!-- Will log in as Alice, user 1  -->

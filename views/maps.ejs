@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-  <title>All Maps</title>
+  <title>Maps</title>
 
   <meta charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
@@ -18,26 +18,29 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="/vendor/jquery-3.0.0.js"></script>
-  <script defer src="/scripts/users.js"></script>
+
   <!-- update -->
 </head>
 
 <body>
   <%- include('partials/_header') %>
-  <h1>All Maps</h1>
+  <h1><%= title %></h1>
   <main class="container">
 
       <section class="cards-container">
-          <% for (let map in maps) { %>
-          <div class="card">
+          <% for (let map of maps) { %>
+          <a href="/maps/<%= map.id %>">
+            <div class="card" >
             <img src="https://picsum.photos/100" alt="trial image">
-              <!-- <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= maps[map].latitude %>,<%= maps[map].longitude %>&zoom=<%= maps[map].zoom %>&size=200x200&key=AIzaSyCl71N9D-01p0RFxUxmSkcBOnbiZzFN8iA" alt="map-img"> -->
+              <!-- <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= map.latitude %>,<%= map.longitude %>&zoom=<%= map.zoom %>&size=200x200&key=AIzaSyCl71N9D-01p0RFxUxmSkcBOnbiZzFN8iA" alt="map-img"> -->
 
               <div class="card-text">
-                <h5 class="card-title"><%= maps[map].title %></h5>
+                <h5 class="card-title"><%= map.title %></h5>
               </div>
           </div>
+        </a>
           <% } %>
+
         </section>
 
     <section class="container-my-favs">
