@@ -35,20 +35,20 @@ app.use(express.static('public'));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const userApiRoutes = require('./routes/users-api');
+const ApiRoutes = require('./routes/apiRoutes');
 const pinApiRoutes = require('./routes/pins-api');
-const favouritesRoutes = require('./routes/favourites');
 const usersRoutes = require('./routes/users');
-const mapsRoutes = require('./routes/maps-api');
+const mapsRoutes = require('./routes/maps');
+
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
-app.use('/api/users', userApiRoutes);
+app.use('/api', ApiRoutes);
 app.use('/api/pins', pinApiRoutes);
-app.use('/favourites', favouritesRoutes);
 app.use('/users', usersRoutes);
-app.use('/api/maps', mapsRoutes);
+app.use('/maps', mapsRoutes);
+
 // Note: mount other resources here, using the same pattern above
 
 // Home page
@@ -63,7 +63,7 @@ app.get('/login/:id', (req, res) => {
 
 app.get('/', (req, res) => {
   const userID = req.session.user_id;
-  res.render('index', { user: {id: userID} });
+  res.render('index', { user: userID });
 });
 app.post('/logout', (req, res) => {
   req.session = null;
