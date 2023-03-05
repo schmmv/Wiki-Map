@@ -1,3 +1,4 @@
+$('#places-search').hide();
 // Initialize and add the map
 function initMap() {
   console.log(mapData.lat, mapData.lng);
@@ -16,3 +17,4 @@ function initMap() {
   }
 
 window.initMap = initMap;
+
