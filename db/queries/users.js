@@ -17,14 +17,5 @@ const getUserById = function(id) {
     });
 }
 
-const getMapsByUserId = function(id) {
-  return db.query(`
-    SELECT maps.title, user_id, latitude, longitude, zoom
-    FROM users
-    JOIN maps ON users.id = user_id
-    WHERE user_id = $1`, [id])
-    .then(data => {
-      return data.rows;
-    });
-}
-module.exports = { getUsers, getUserById, getMapsByUserId };
+
+module.exports = { getUsers, getUserById };
