@@ -8,7 +8,9 @@
 const express = require('express');
 const router  = express.Router();
 const db = require('../db/queries/users');
+const mapQueries = require('../db/queries/maps');
 
+// /users/:id
 router.get('/:id', (req, res) => {
   const userID = req.session.user_id;
   db.getUserById(userID)
@@ -18,4 +20,42 @@ router.get('/:id', (req, res) => {
 
 });
 
+// /users/:id/maps
+router.get('/:id/maps', (req, res) => {
+  const userID = req.params.id;
+  console.log(`inside get /users/${userID}/maps`);
+
+  if (userID !== req.session.user_id) {
+    return res.status(401).send('Unauthorized');
+  }
+  mapQueries.getMapsByUserId(userID)
+    .then(maps => {
+      const templateVars = { maps: maps, user: userID, title: 'My Maps' };
+      console.log(maps);
+      res.render('maps', templateVars);
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
+// /users/:id/favourites
+router.get('/:id/favourites', (req, res) => {
+  const userID = req.params.id;
+
+  if (userID !== req.session.user_id) {
+    return res.status(401).send('Unauthorized');
+  }
+
+  mapQueries.getFavsByUserId(userID)
+    .then(maps => {
+      const templateVars = { maps: maps, user: userID, title: 'My Favourites' };
+      res.render('maps', templateVars);
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+});
+
 module.exports = router;
+
