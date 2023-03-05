@@ -18,7 +18,7 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="/vendor/jquery-3.0.0.js"></script>
-  <script defer src="/scripts/users.js"></script>
+  <script defer src="/scripts/app.js"></script>
   <!-- update -->
 </head>
 
@@ -29,7 +29,7 @@
 
       <section class="cards-container">
           <% for (let map in maps) { %>
-          <div class="card">
+          <div data-id="<%= maps[map].id %>" class="card">
             <img src="https://picsum.photos/100" alt="trial image">
               <!-- <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= maps[map].latitude %>,<%= maps[map].longitude %>&zoom=<%= maps[map].zoom %>&size=200x200&key=AIzaSyCl71N9D-01p0RFxUxmSkcBOnbiZzFN8iA" alt="map-img"> -->
 
