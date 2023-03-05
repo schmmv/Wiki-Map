@@ -1,9 +1,14 @@
 const db = require('../connection');
 
 // TODO: make use of user in WHERE clause
-const getPins = (user) => {
-  return db.query('SELECT * FROM pins;')
+const getPinsByUserId = (id) => {
+  return db.query(`
+    SELECT maps.title as Map, pins.title as Pin from pins
+    JOIN maps ON map_id = maps.id
+    WHERE pins.user_id = $1
+    ORDER BY map_id;`, [id])
     .then(data => {
+      console.log(data.rows);
       return data.rows;
     });
 };
@@ -35,4 +40,4 @@ const create = function (pin) {
     });
 };
 
-module.exports = { getPins, create };
+module.exports = { getPinsByUserId, create };

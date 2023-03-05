@@ -9,6 +9,7 @@ const express = require('express');
 const router  = express.Router();
 const db = require('../db/queries/users');
 const mapQueries = require('../db/queries/maps');
+const pinQueries = require('../db/queries/pins');
 
 // /users/:id
 router.get('/:id', (req, res) => {
@@ -57,5 +58,21 @@ router.get('/:id/favourites', (req, res) => {
     });
 });
 
+// /users/:id/pins
+router.get('/:id/pins', (req, res) => {
+  const userID = req.params.id;
+  if (userID !== req.session.user_id) {
+    return res.status(401).send('Unauthorized');
+  }
+  pinQueries.getPinsByUserId(userID)
+    .then(pins => {
+      res.json({ pins });
+      // const templateVars = { pins: pins, user: userID };
+      // res.render('pins', templateVars);
+    })
+    .catch(err => {
+      res.status(500).json({ error: err.message });
+    });
+})
 module.exports = router;
 
