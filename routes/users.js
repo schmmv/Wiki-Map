@@ -25,20 +25,39 @@ router.get('/:id', (req, res) => {
 // /users/:id/maps
 router.get('/:id/maps', (req, res) => {
   const userID = req.params.id;
-  console.log(`inside get /users/${userID}/maps`);
 
   if (userID !== req.session.user_id) {
     return res.status(401).send('Unauthorized');
   }
-  mapQueries.getMapsByUserId(userID)
-    .then(maps => {
-      const templateVars = { maps: maps, user: userID, title: 'My Maps' };
-      console.log(maps);
+
+  Promise.all([mapQueries.getMapsByUserId(userID), favQueries.getFavsByUserId(userID)])
+    .then((responses) => {
+
+      const favs = responses[1];
+      const maps = responses[0];
+      for (const map of maps) {
+        map.isFav = false;
+        for (const fav of favs) {
+          if (fav.map_id === map.id){
+            console.log('condition met');
+            map.isFav = true;
+          }
+        }
+      }
+      const templateVars = {
+        maps,
+        user: userID,
+        title: 'My Maps'
+      }
       res.render('maps', templateVars);
+
     })
-    .catch(err => {
+    .catch((err) => {
       res.status(500).json({ error: err.message });
     });
+
+
+
 });
 
 // /users/:id/favourites
@@ -49,7 +68,7 @@ router.get('/:id/favourites', (req, res) => {
     return res.status(401).send('Unauthorized');
   }
 
-  favQueries.getFavsByUserId(userID)
+  favQueries.getFavMapsByUserId(userID)
     .then(maps => {
       const templateVars = { maps: maps, user: userID, title: 'My Favourites' };
       res.render('maps', templateVars);
