@@ -10,6 +10,7 @@ const express = require('express');
 const router  = express.Router();
 const db = require('../db/queries/users');
 const mapQueries = require('../db/queries/maps');
+const favQueries = require('../db/queries/favourites');
 
 
 // /api/users
@@ -23,6 +24,7 @@ router.get('/users', (req, res) => {
     });
 });
 
+// /api/maps
 router.get('/maps', (req, res) => {
     mapQueries.getAllMaps()
     .then(maps => {
@@ -32,5 +34,16 @@ router.get('/maps', (req, res) => {
       res.status(500).json({ error: err.message });
     });
 });
+
+// /api/favourites
+router.get('/favourites', (req, res) => {
+  favQueries.getFavs()
+  .then(favs => {
+    res.json({ favs });
+  })
+  .catch(err => {
+    res.status(500).json({ error: err.message });
+  });
+})
 
 module.exports = router;
