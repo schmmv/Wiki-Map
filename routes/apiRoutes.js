@@ -46,4 +46,19 @@ router.get('/favourites', (req, res) => {
   });
 })
 
+// /api/favourites/add
+router.post('/favourites/add', (req, res) => {
+  const user_id = req.session.user_id;
+  const map_id = req.data;
+  favQueries.addFavourite(user_id, map_id)
+  .then((res) => {
+    //do nothing?
+    console.log(res);
+    //res.redirect?
+  })
+  .catch((err) => {
+    res.status(500).json({ error: err.message });
+  });
+});
+
 module.exports = router;
