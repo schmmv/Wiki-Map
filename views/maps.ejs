@@ -18,6 +18,8 @@
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="/vendor/jquery-3.0.0.js"></script>
+  <script defer src="/scripts/favourite.js"></script>
+
 
   <!-- update -->
 </head>
@@ -29,14 +31,16 @@
 
       <section class="cards-container">
           <% for (let map of maps) { %>
-          <a href="/maps/<%= map.id %>">
+
             <div class="card" >
             <img src="https://picsum.photos/100" alt="trial image">
               <!-- <img src="https://maps.googleapis.com/maps/api/staticmap?center=40.714%2c%20-73.998&zoom=12&size=400x400&key=AIzaSyDZwkpyS2wjI8ak01aR4vc8c8dz7FT5JuE" alt="map-img"> -->
 
               <div class="card-text">
-                <h3 class="card-title"><%= map.title %></h3>
+                <a href="/maps/<%= map.id %>"><h3 class="card-title"><%= map.title %></h3></a>
+                <i class="fa-regular fa-heart"></i>
               </div>
+
           </div>
         </a>
           <% } %>
