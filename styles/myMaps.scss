@@ -33,16 +33,26 @@
 
       .card-text {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
+        align-items: center;
+
+        i {
+          padding-right: 20px;
+          font-size: 32px;
+          color: rgb(255, 0, 157);
+          &:hover {
+            cursor: pointer;
+          }
+        }
 
         h3 {
           margin: 1em;
+          font-size: 24px;
         }
       }
     }
   }
   .card:hover {
     box-shadow: 0 16px 32px 0 rgba(0,0,0,0.2);
-    cursor: pointer;
   }
 
