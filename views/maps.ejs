@@ -21,6 +21,7 @@
   <script defer src="/scripts/favourite.js"></script>
 
 
+
   <!-- update -->
 </head>
 
@@ -34,11 +35,15 @@
 
             <div class="card" >
             <img src="https://picsum.photos/100" alt="trial image">
-              <!-- <img src="https://maps.googleapis.com/maps/api/staticmap?center=40.714%2c%20-73.998&zoom=12&size=400x400&key=AIzaSyDZwkpyS2wjI8ak01aR4vc8c8dz7FT5JuE" alt="map-img"> -->
+              <!-- <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= map.latitude %>,<%= map.longitude %>&zoom=<%= map.zoom %>&size=200x200&key=AIzaSyDZwkpyS2wjI8ak01aR4vc8c8dz7FT5JuE" alt="map-img"> -->
 
               <div class="card-text">
                 <a href="/maps/<%= map.id %>"><h3 class="card-title"><%= map.title %></h3></a>
-                <i class="fa-regular fa-heart"></i>
+                <% if (map.isFav) { %>
+                <i class="fa-solid fa-heart"></i>
+                <% } else { %>
+                  <i class="fa-regular fa-heart"></i>
+                <% } %>
               </div>
 
           </div>
