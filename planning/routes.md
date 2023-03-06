@@ -9,19 +9,19 @@ Browse, Read, Edit, Add, Delete
 - ~~D   POST           /users/:id/delete  delete user~~
 ---
 - [x] B   GET            /maps              home screen of public maps
-- R   GET            /maps/:id          view single map
-- E   POST or PATCH  /maps/:id          edit map
+- [x] R   GET            /maps/:id          view single map
+- ~~E   POST or PATCH  /maps/:id          edit map~~
 - A   POST           /maps              add new map
-- D   DELETE         /maps/:id/delete   delete map
+- ~~D   DELETE         /maps/:id/delete   delete map~~
 ---
-- B   GET            /pins              redirect to home screen of public maps?
-- R   GET            /pins/:id          view single pin
+- ~~B   GET            /pins              redirect to home screen of public maps?~~
+- ~~R   GET            /pins/:id          view single pin~~
 - E   POST or PATCH  /pins/:id          edit a pin
 - A   POST           /pins              add a pin
 - D   POST           /pins/:id/delete   delete a pin
 ---
-- B   GET            /favourites        redir to home screen of public maps
+- ~~B   GET            /favourites        redir to home screen of public maps~~
 - [x] R   GET            /users/:id/favourites    user's favourites
-- E   POST or PATCH  /favourites/:id    edit a favourite
-- A   POST           /favourites        add a favourite
-- D   POST           /favourites/:id    delete a favourite
+- ~~E   POST or PATCH  /favourites/:id    edit a favourite~~
+- A   POST           /api/favourites/add        add a favourite
+- D   POST           /api/favourites/:id    delete a favourite

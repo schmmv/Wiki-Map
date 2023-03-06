@@ -10,6 +10,7 @@ const router  = express.Router();
 const db = require('../db/queries/users');
 const mapQueries = require('../db/queries/maps');
 const pinQueries = require('../db/queries/pins');
+const favQueries = require('../db/queries/favourites');
 
 // /users/:id
 router.get('/:id', (req, res) => {
@@ -48,7 +49,7 @@ router.get('/:id/favourites', (req, res) => {
     return res.status(401).send('Unauthorized');
   }
 
-  mapQueries.getFavsByUserId(userID)
+  favQueries.getFavsByUserId(userID)
     .then(maps => {
       const templateVars = { maps: maps, user: userID, title: 'My Favourites' };
       res.render('maps', templateVars);
