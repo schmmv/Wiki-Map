@@ -1,6 +1,6 @@
 $('#places-search').hide();
 // Initialize and add the map
-function initMap() {
+function initMapView() {
   console.log(mapData.lat, mapData.lng);
 
     const center = { lat: mapData.lat, lng: mapData.lng };
@@ -16,5 +16,5 @@ function initMap() {
     });
   }
 
-window.initMap = initMap;
+window.initMapView = initMapView;
 
