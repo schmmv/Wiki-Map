@@ -1,0 +1,65 @@
+@import '_helpers.scss';
+
+body {
+  padding-top: 60px;
+  background-color: $green;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+}
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+
+
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+
+    .card {
+
+      margin: auto;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 75%;
+      background: $beige;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      border-radius: 5px;
+
+      img {
+        border-radius: 5px 5px 0 0;
+        width: 100%;
+      }
+
+      .card-text {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        i {
+          padding-right: 20px;
+          font-size: 32px;
+          color: rgb(255, 0, 157);
+          &:hover {
+            cursor: pointer;
+          }
+        }
+
+        h3 {
+          margin: 1em;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+  .card:hover {
+    box-shadow: 0 16px 32px 0 rgba(0,0,0,0.2);
+  }
+

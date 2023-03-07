@@ -14,6 +14,8 @@
   <link rel="stylesheet" href="/vendor/border-box.css" />
   <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
+  <link rel="stylesheet" href="/styles/header.css" />
+
 
   <!-- Icons and Buttons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
@@ -26,17 +28,23 @@
 
   <!-- App JS -->
   <script defer src="/scripts/app.js"></script>
-  <script defer src="/scripts/map.js"></script>
-  <script defer src="/scripts/users.js"></script>
-  <script defer src="/scripts/pins.js"></script>
+<script>
+  const mapData = {
+    lat: <%= map.latitude %>,
+    lng: <%= map.longitude %>,
+    zoom: <%= map.zoom %>,
+  }
+</script>
 
 </head>
 
 <body>
+
     <!-- Top nav bar (fixed) -->
     <nav></nav>
 
-
+<%- include('partials/_header') %>
+  <main>
     <div id="user-landing-page">
     </div>
 
@@ -48,8 +56,17 @@
       />
       <i class="fa-solid fa-map-pin"></i>
 
+    />
+    <h2 class="map-name"><%= map.title %></h2>
+    <div id="map"></div>
+    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA99oaeRE9f-WEMMUMqtcSo-rMHZ_ZrGQM&callback=initMap"></script> -->
+    <i class="fa-solid fa-map-pin"></i>
+    <script async
+      src="https://maps.googleapis.com/maps/api/js?v=beta&key=AIzaSyBVved6raL6c4ZPgzHRy0XXYzcPoqyZ9pI&libraries=places,marker&callback=initMap">
+    </script>
   <footer></footer>
 
+  </main>
 </body>
 
 </html>

@@ -1,6 +1,7 @@
 // load .env data into process.env
 require('dotenv').config();
 
+
 // Web server config
 const sassMiddleware = require('./lib/sass-middleware');
 const express = require('express');
@@ -34,28 +35,40 @@ app.use(express.static('public'));
 
 // Separated Routes for each Resource
 // Note: Feel free to replace the example routes below with your own
-const userApiRoutes = require('./routes/users-api');
+const ApiRoutes = require('./routes/apiRoutes');
 const pinApiRoutes = require('./routes/pins-api');
-const widgetApiRoutes = require('./routes/widgets-api');
 const usersRoutes = require('./routes/users');
-// const mapsRoutes = require('./routes/maps-api');
+const mapsRoutes = require('./routes/maps');
+
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
 // Note: Endpoints that return data (eg. JSON) usually start with `/api`
-app.use('/api/users', userApiRoutes);
+app.use('/api', ApiRoutes);
 app.use('/api/pins', pinApiRoutes);
-app.use('/api/widgets', widgetApiRoutes);
 app.use('/users', usersRoutes);
-// app.use('/api/maps', mapsRoutes);
+app.use('/maps', mapsRoutes);
+
 // Note: mount other resources here, using the same pattern above
 
 // Home page
 // Warning: avoid creating more routes in this file!
 // Separate them into separate routes files (see above).
+// do this instead
+app.get('/login/:id', (req, res) => {
+  // using encrypted cookies
+  req.session.user_id = req.params.id;
+  res.redirect('/');
+});
 
 app.get('/', (req, res) => {
-  res.render('index');
+  const userID = req.session.user_id;
+  const templateVars = { map: {latitude: 0, longitude: 0, zoom: 0}, user: userID };
+  res.render('index', templateVars);
+});
+app.post('/logout', (req, res) => {
+  req.session = null;
+  res.redirect('/');
 });
 
 app.listen(PORT, () => {

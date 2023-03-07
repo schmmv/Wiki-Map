@@ -16,4 +16,6 @@ const getUserById = function(id) {
       return data.rows[0];
     });
 }
+
+
 module.exports = { getUsers, getUserById };
