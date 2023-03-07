@@ -22,6 +22,7 @@ const getFavMapsByUserId = function(id) {
     JOIN users ON users.id = favourites.user_id
     WHERE favourites.user_id = $1`, [id])
     .then(data => {
+      console.log(data.rows);
       return data.rows;
     });
 };
