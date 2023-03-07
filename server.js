@@ -63,7 +63,8 @@ app.get('/login/:id', (req, res) => {
 
 app.get('/', (req, res) => {
   const userID = req.session.user_id;
-  res.render('index', { user: userID });
+  const templateVars = { map: {latitude: 0, longitude: 0, zoom: 0}, user: userID };
+  res.render('index', templateVars);
 });
 app.post('/logout', (req, res) => {
   req.session = null;

@@ -37,7 +37,8 @@ router.get('/maps', (req, res) => {
 
 // /api/favourites
 router.get('/favourites', (req, res) => {
-  favQueries.getFavs()
+  const userID = req.session.user_id;
+  favQueries.getFavsByUserId(userID)
   .then(favs => {
     res.json({ favs });
   })
