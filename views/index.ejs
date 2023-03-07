@@ -2,12 +2,14 @@
 <html lang="en">
 
 <head>
+  <!-- Meta Information -->
   <title>Wiki-Map</title>
 
   <meta charset="UTF-8" >
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <meta name="viewport" content="width=device-width, initial-scale=1.0" >
 
+  <!-- App CSS -->
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="/vendor/border-box.css" />
   <link rel="stylesheet" href="/styles/main.css" />
@@ -15,8 +17,16 @@
   <link rel="stylesheet" href="/styles/header.css" />
 
 
+  <!-- Icons and Buttons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- External JS -->
   <script src="/vendor/jquery-3.0.0.js"></script>
+  <script async
+  src="https://maps.googleapis.com/maps/api/js?v=beta&key=AIzaSyA99oaeRE9f-WEMMUMqtcSo-rMHZ_ZrGQM&libraries=places,marker&callback=initMap">
+  </script>
+
+  <!-- App JS -->
   <script defer src="/scripts/app.js"></script>
 <script>
   const mapData = {
@@ -29,14 +39,23 @@
 </head>
 
 <body>
+
+    <!-- Top nav bar (fixed) -->
+    <nav></nav>
+
 <%- include('partials/_header') %>
   <main>
     <div id="user-landing-page">
     </div>
 
-    <input
+    <!-- map div -->
+    <div id="map"></div>
+      <input
         id="places-search" class="controls" type="text"
         placeholder="What are you looking for?"
+      />
+      <i class="fa-solid fa-map-pin"></i>
+
     />
     <h2 class="map-name"><%= map.title %></h2>
     <div id="map"></div>
