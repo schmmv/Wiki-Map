@@ -39,7 +39,6 @@ router.get('/:id/maps', (req, res) => {
         map.isFav = false;
         for (const fav of favs) {
           if (fav.map_id === map.id){
-            console.log('condition met');
             map.isFav = true;
           }
         }
@@ -70,6 +69,9 @@ router.get('/:id/favourites', (req, res) => {
 
   favQueries.getFavMapsByUserId(userID)
     .then(maps => {
+      for (const map of maps) {
+        map.isFav = true;
+      }
       const templateVars = { maps: maps, user: userID, title: 'My Favourites' };
       res.render('maps', templateVars);
     })
