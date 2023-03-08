@@ -1,12 +1,13 @@
-let map, infoWindow, pin, formString;
+let map, infoWindow, pin;
 
 
 const vancouver = { lat: 49.2578262, lng: -123.1941156 };
 const ubc = { lat: 49.26410715655254, lng: -123.24569741813465};
+
 function initMap() {
   map = new google.maps.Map(document.getElementById("map"), {
     center: vancouver,
-    zoom: 14,
+    zoom: 15,
     mapId: 'DEMO_MAP_ID'
   });
 
@@ -112,37 +113,32 @@ function initMap() {
       draggable: true, // set pin to draggable
     });
 
-    // content structure of pin info window for user to add info
-    const formString = `<div class="pin-info-window">
-      <form id="pindrop-form" = method="POST" action="/api/pins">
-        <input type="hidden" name="lat" value="${position.lat}">
-        <input type="hidden" name="lng" value="${position.lng}">
-        <label for="name">Name:</label><br>
-        <input type="text" id="Name" name="name"><br><br>
-        <label for="pinDescription">Description:</label><br>
-        <input type="text" id="description" name="description"><br><br>
-       </form>
-      <button type="submit" form="pindrop-form" value="Submit">Save Pin</button>
-      <button name="remove-marker" class="remove-marker" title="Remove Marker">Remove Pin</button>
-      </div>
-    `;
-
-    // const infoWindow = new google.maps.InfoWindow();
-
-
-    infowindow.setContent(formString[0]);
-    pin.addListener('click', (e) => {
-			infowindow.open(map,pin); // click on pin opens info window
-    })
-    //###### remove marker #########/
-    let removeBtn = formString.find('button.remove-marker')[0];
-    map.addDomListener(removeBtn, "click", function(event) {
-      marker.setMap(null);
+    const $newPinForm = $('.pin-info-window');
+    // set the value of the inputs in the pin form
+    $newPinForm.find('input[name="name"]').val("");
+    $newPinForm.find('input[name="description"]').val("");
+    //look at the latLng object and see what it looks like
+    $newPinForm.find('input[name="lat"]').val(e.latLng.lat);
+    $newPinForm.find('input[name="lng"]').val(e.latLng.lng);
+    $newPinForm.find('.remove-marker').click((e) => {
+      //cancel, aka hide it
+      $newPinForm.hide();
     });
-  })
+    // function will get executed on click of submit button
+    $("button").click((e) => {
+      const $form = $('#pindrop-form');
+      const url = $form.attr('action');
+      //submit the form via ajax and display success message or error
+      $.post(url, {
+        data: $form.serialize()
+      },
+      function(data, status) {
+        alert('Pin submitted successfully', null);
+      })
+    });
 
-
-
+    $newPinForm.show();
+  });
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {

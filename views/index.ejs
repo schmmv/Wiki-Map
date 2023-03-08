@@ -25,23 +25,27 @@
   <script async
   src="https://maps.googleapis.com/maps/api/js?v=beta&key=AIzaSyA99oaeRE9f-WEMMUMqtcSo-rMHZ_ZrGQM&libraries=places,marker&callback=initMap">
   </script>
+  <!-- Michele's Key? <script async
+      src="https://maps.googleapis.com/maps/api/js?v=beta&key=AIzaSyBVved6raL6c4ZPgzHRy0XXYzcPoqyZ9pI&libraries=places,marker&callback=initMap">
+  </script> -->
 
   <!-- App JS -->
   <script defer src="/scripts/app.js"></script>
-<script>
-  const mapData = {
-    lat: <%= map.latitude %>,
-    lng: <%= map.longitude %>,
-    zoom: <%= map.zoom %>,
-  }
-</script>
+  <script defer src="/scripts/map.js"></script>
+  <script>
+    const mapData = {
+      lat: <%= map.latitude %>,
+      lng: <%= map.longitude %>,
+      zoom: <%= map.zoom %>,
+    }
+  </script>
 
 </head>
 
 <body>
 
-    <!-- Top nav bar (fixed) -->
-    <nav></nav>
+  <!-- Top nav bar (fixed) -->
+  <nav></nav>
 
 <%- include('partials/_header') %>
   <main>
@@ -49,22 +53,32 @@
     </div>
 
     <!-- map div -->
-    <div id="map"></div>
+    <div id="wrapper">
+      <div id="map"></div>
       <input
-        id="places-search" class="controls" type="text"
-        placeholder="What are you looking for?"
+          id="places-search" class="controls" type="text"
+          placeholder="What are you searching for?"
       />
       <i class="fa-solid fa-map-pin"></i>
+      <div class="pin-info-window" style="display: none;">
+        <form id="pindrop-form" method="POST" action="/api/pins">
+          <input type="hidden" name="lat">
+          <input type="hidden" name="lng">
 
-    />
+          <label for="title">Pin title:</label><br>
+          <input type="text" id="title" name="title"><br><br>
+          <label for="description">Pin description:</label><br>
+          <input type="text" id="description" name="description"><br><br>
+          <button type="submit" form="pindrop-form" value="Submit">Submit</button>
+
+          <button name="remove-marker" class="remove-marker" title="Remove Marker">Remove Pin</button>
+        </form>
+      </div>
+    </div>
     <h2 class="map-name"><%= map.title %></h2>
-    <div id="map"></div>
-    <!-- <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyA99oaeRE9f-WEMMUMqtcSo-rMHZ_ZrGQM&callback=initMap"></script> -->
-    <i class="fa-solid fa-map-pin"></i>
-    <script async
-      src="https://maps.googleapis.com/maps/api/js?v=beta&key=AIzaSyBVved6raL6c4ZPgzHRy0XXYzcPoqyZ9pI&libraries=places,marker&callback=initMap">
-    </script>
-  <footer></footer>
+
+
+    <footer></footer>
 
   </main>
 </body>
