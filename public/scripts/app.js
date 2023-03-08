@@ -1,4 +1,4 @@
-$('#places-search').hide();
+
 // Initialize and add the map
 function initMapView() {
   console.log(mapData.lat, mapData.lng);
@@ -9,11 +9,32 @@ function initMapView() {
       zoom: mapData.zoom,
       center
     });
-    // The marker, positioned at Uluru
-    const marker = new google.maps.Marker({
-      position: center,
-      map: map,
-    });
+    const infoWindow = new google.maps.InfoWindow();
+    // The markers
+    $.ajax({
+      method: 'GET',
+      url: '/api/pins'
+    })
+    .done((response) => {
+      const pins = response.pins;
+
+      for (const pin of pins) {
+        const contentString = `<div id="content"><img width="200" src="${pin.image_url}"><h4>${pin.title}</h4><p>${pin.description}</p></div>`;
+        const marker = new google.maps.Marker({
+          position: { lat: pin.latitude, lng: pin.longitude },
+          map: map,
+          title: pin.title,
+          optimized: false,
+        })
+        marker.addListener("click", () => {
+          infoWindow.close();
+          infoWindow.setContent(contentString);
+          infoWindow.open(marker.getMap(),marker);
+        })
+      }
+    })
+
+
   }
 
 window.initMapView = initMapView;
