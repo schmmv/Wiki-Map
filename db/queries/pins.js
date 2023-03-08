@@ -1,5 +1,16 @@
 const db = require('../connection');
 
+const getPinsByMapId = function(mapId) {
+  return db.query(`
+    SELECT
+    id, title, description, image_url, map_id, latitude, longitude
+    FROM pins
+    WHERE map_id = $1;`, [mapId])
+    .then((res) => {
+      return res.rows;
+    })
+}
+
 const getPinsByUserId = function(id) {
   return db.query(`
     SELECT
@@ -49,4 +60,4 @@ const create = function (pin) {
     });
 };
 
-module.exports = { getPinsByUserId, create, remove };
+module.exports = { getPinsByUserId, create, remove, getPinsByMapId };
