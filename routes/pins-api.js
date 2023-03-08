@@ -43,4 +43,17 @@ router.post('/', (req, res) => {
   });
 });
 
+
+router.delete('/:id', (req, res) => {
+  const pinId = req.params.id
+  console.log(pinId);
+  pins.remove(pinId).then(pin => {
+    console.log("pin deleted");
+    res.send("Pin deleted");
+  })
+
+  // todo: actually delete
+
+});
+
 module.exports = router;

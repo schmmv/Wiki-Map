@@ -88,10 +88,6 @@ function initMap() {
             lat: position.coords.latitude,
             lng: position.coords.longitude,
           };
-
-          // infoWindow.setPosition(pos);
-          // infoWindow.setContent("Location found.");
-          // infoWindow.open(map);
           map.setCenter(pos);
         },
         () => {
@@ -115,14 +111,20 @@ function initMap() {
 
     const $newPinForm = $('.pin-info-window');
     // set the value of the inputs in the pin form
-    $newPinForm.find('input[name="name"]').val("");
+    $newPinForm.find('input[name="title"]').val("");
     $newPinForm.find('input[name="description"]').val("");
     //look at the latLng object and see what it looks like
     $newPinForm.find('input[name="lat"]').val(e.latLng.lat);
     $newPinForm.find('input[name="lng"]').val(e.latLng.lng);
+    $newPinForm.find("#create_pin_button").show();
+    // hide the edit and delete buttons when adding a new pin
+    $("#edit_pin_button").hide();
+    $("#delete_pin_button").hide();
     $newPinForm.find('.remove-marker').click((e) => {
       //cancel, aka hide it
       $newPinForm.hide();
+      pin.setMap(null);
+      e.preventDefault();
     });
     // function will get executed on click of submit button
     $("#create_pin_button").click((e) => {
@@ -145,6 +147,56 @@ function initMap() {
 
     $newPinForm.show();
   });
+
+  $.get("/api/pins", (data, status) => {
+    // iterate through pins
+    data.pins.forEach(pin => {
+      console.log(pin.title)
+      // add marker for each pin
+      let marker = new google.maps.Marker({
+        position: {
+          lat: pin.latitude,
+          lng: pin.longitude,
+        },
+        map: map,
+        draggable: true,
+      });
+      marker.addListener("click", () => {
+        console.log(marker);
+        // show the pin form and set the values for the pin form
+        const $newPinForm = $('.pin-info-window');
+
+        $("#create_pin_button").hide();
+        $newPinForm.find('input[name="title"]').val(pin.title);
+        $newPinForm.find('input[name="description"]').val(pin.description);
+        $newPinForm.find('input[name="lat"]').val(pin.latitude);
+        $newPinForm.find('input[name="lng"]').val(pin.longitude);
+        $newPinForm.show();
+        $newPinForm.find('.remove-marker').click((e) => {
+          //cancel, aka hide it
+          $newPinForm.hide();
+          e.preventDefault();
+        });
+
+
+        $("#delete_pin_button").click((e) => {
+
+          $.ajax("/api/pins/" + pin.id, {
+            type: "DELETE",
+            success: (data) => {
+              console.log('deleted');
+              $newPinForm.hide();
+              // remove marker from map
+              marker.setMap(null);
+            }
+          });
+
+          e.preventDefault();
+        });
+      });
+    });
+    console.log(data);
+  });
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -156,15 +208,5 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
   );
   infoWindow.open(map);
 }
-
-
-
-
-
-
-
-
-
-
 
 window.initMap = initMap;
