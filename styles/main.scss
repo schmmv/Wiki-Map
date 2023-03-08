@@ -1,11 +1,13 @@
 @import '_helpers.scss';
 
 main {
+  display: flexbox;
   width: 100%;
 }
 
 #map {
-  height: 400px;
+  height: 800px;
+  top: 100px;
   width: 100%;
 }
 
@@ -13,7 +15,22 @@ html, body {
   height: 100%;
   margin: 0;
   padding: 0;
+}
 
+.pin-info-window {
+  width: 400px;
+  height: 400px;
+  position: absolute;
+  z-index: 99;
+  display: flex;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  flex-wrap: wrap;
+  flex-direction: column;
+  align-items: center;
+  background: white;
+  border: 1px solid black;
 }
 
 .custom-map-control-button {
