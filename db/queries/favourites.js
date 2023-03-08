@@ -37,4 +37,13 @@ const addFavourite = function(user_id, map_id) {
     });
 };
 
-module.exports = { getFavMapsByUserId, addFavourite, getFavs, getFavsByUserId }
+const removeFavById = function(id) {
+  return db.query(`
+    DELETE FROM favourites
+    WHERE id = $1
+    RETURNING *`, [id]);
+}
+
+
+
+module.exports = { getFavMapsByUserId, addFavourite, getFavs, getFavsByUserId, removeFavById }

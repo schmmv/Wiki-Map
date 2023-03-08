@@ -49,17 +49,43 @@ router.get('/favourites', (req, res) => {
 
 // /api/favourites/add
 router.post('/favourites/add', (req, res) => {
+
   const user_id = req.session.user_id;
-  const map_id = req.data;
+  const map_id = req.body.map;
   favQueries.addFavourite(user_id, map_id)
   .then((res) => {
     //do nothing?
-    console.log(res);
     //res.redirect?
   })
   .catch((err) => {
     res.status(500).json({ error: err.message });
   });
+});
+
+// /api/favourites/:id (delete)
+router.post('/favourites/:mapid', (req, res) => {
+
+  const user_id = req.session.user_id;
+
+  const map_id = Number(req.params.mapid);
+
+ favQueries.getFavsByUserId(user_id)
+  .then((res) => {
+    let favId = null;
+    for (const fav of res) {
+      if (fav.map_id === map_id) {
+        favId = fav.id;
+      }
+    }
+    return favQueries.removeFavById(favId);
+  })
+  .then((res) => {
+    //do nothing i guess?
+  })
+  .catch((err) => {
+    res.status(500).json({ error: err.message });
+  });
+
 });
 
 module.exports = router;
