@@ -23,7 +23,7 @@
   <!-- External JS -->
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script async
-  src="https://maps.googleapis.com/maps/api/js?v=beta&key=AIzaSyA99oaeRE9f-WEMMUMqtcSo-rMHZ_ZrGQM&libraries=places,marker&callback=initMap">
+  src="https://maps.googleapis.com/maps/api/js?v=beta&key=<%=key%>&libraries=places,marker&callback=initMap">
   </script>
   <!-- Michele's Key? <script async
       src="https://maps.googleapis.com/maps/api/js?v=beta&key=AIzaSyBVved6raL6c4ZPgzHRy0XXYzcPoqyZ9pI&libraries=places,marker&callback=initMap">
@@ -70,7 +70,7 @@
         <textArea id="description" name="description" rows="1" cols="23%"></textArea><br><br>
         <footer>
           <button id="create_pin_button" type="submit" form="pindrop-form">Create</button>
-          <button id="edit_pin_button" type="submit" form="pindrop-form">Edit</button>
+          <button id="edit_pin_button" type="submit" form="pindrop-form">Save</button>
           <button id="delete_pin_button" type="submit" form="pindrop-form">Delete</button>
           <button id="cancel_pin_button" name="remove-marker" class="remove-marker">Cancel</button>
         </footer>
