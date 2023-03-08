@@ -111,8 +111,8 @@ function initMap() {
 
     const $newPinForm = $('.pin-info-window');
     // set the value of the inputs in the pin form
-    $newPinForm.find('input[name="title"]').val("");
-    $newPinForm.find('input[name="description"]').val("");
+    $newPinForm.find('textArea[name="title"]').val("");
+    $newPinForm.find('textArea[name="description"]').val("");
     //look at the latLng object and see what it looks like
     $newPinForm.find('input[name="lat"]').val(e.latLng.lat);
     $newPinForm.find('input[name="lng"]').val(e.latLng.lng);
@@ -167,15 +167,17 @@ function initMap() {
         const $newPinForm = $('.pin-info-window');
 
         $("#create_pin_button").hide();
-        $newPinForm.find('input[name="title"]').val(pin.title);
-        $newPinForm.find('input[name="description"]').val(pin.description);
+        $newPinForm.find('textArea[name="title"]').val(pin.title);
+        $newPinForm.find('textArea[name="description"]').val(pin.description);
         $newPinForm.find('input[name="lat"]').val(pin.latitude);
         $newPinForm.find('input[name="lng"]').val(pin.longitude);
         $newPinForm.show();
+        // if user clicks on the cancel button, the form will disappear
         $newPinForm.find('.remove-marker').click((e) => {
           //cancel, aka hide it
           $newPinForm.hide();
           e.preventDefault();
+          textArea.value = '';
         });
 
 
@@ -193,6 +195,19 @@ function initMap() {
 
           e.preventDefault();
         });
+
+        $("#edit_pin_button").click((e) => {
+
+          $.ajax("/api/pins/" + pin.id, {
+            type: "PUT",
+            success: (data) => {
+              console.log('edited');
+              $newPinForm.hide();
+            }
+          });
+          e.preventDefault();
+          textArea.value = '';
+        })
       });
     });
     console.log(data);
