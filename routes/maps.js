@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 const mapQueries = require('../db/queries/maps');
 const favQueries = require('../db/queries/favourites');
+const key = process.env.API_KEY;
 
 router.get('/', (req, res) => {
   const userID = req.session.user_id;
@@ -23,7 +24,8 @@ router.get('/', (req, res) => {
     const templateVars = {
       maps,
       user: userID,
-      title: 'Maps'
+      title: 'Maps',
+      key
     }
     res.render('maps', templateVars);
   })
@@ -38,7 +40,7 @@ router.get('/:id', (req, res) => {
 
   mapQueries.getMapById(mapID)
   .then(map => {
-    const templateVars = { map, user: userID }
+    const templateVars = { map, user: userID, key }
     res.render('one_map', templateVars)
   })
 })
