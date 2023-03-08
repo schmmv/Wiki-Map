@@ -88,9 +88,9 @@ router.get('/:id/pins', (req, res) => {
   }
   pinQueries.getPinsByUserId(userID)
     .then(pins => {
-      res.json({ pins });
-      // const templateVars = { pins: pins, user: userID };
-      // res.render('pins', templateVars);
+      // res.json({ pins });
+      const templateVars = { pins: pins, user: userID };
+      res.render('my_pins', templateVars);
     })
     .catch(err => {
       res.status(500).json({ error: err.message });

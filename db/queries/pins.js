@@ -1,17 +1,27 @@
 const db = require('../connection');
 
 // TODO: make use of user in WHERE clause
-const getPinsByUserId = (id) => {
+// const getPinsByUserId = (id) => {
+//   return db.query(`
+//     SELECT maps.title as Map, pins.title as Pin from pins
+//      FROM pins
+//     JOIN maps ON map_id = maps.id
+//     WHERE pins.user_id = $1
+//     ORDER BY map_id;`, [id])
+//     .then(data => {
+//       console.log(data.rows);
+//       return data.rows;
+//     });
+// };
+const getPinsByUserId = function(id) {
   return db.query(`
-    SELECT maps.title as Map, pins.title as Pin from pins
-    JOIN maps ON map_id = maps.id
-    WHERE pins.user_id = $1
-    ORDER BY map_id;`, [id])
-    .then(data => {
-      console.log(data.rows);
-      return data.rows;
-    });
-};
+    SELECT title, description, image_url, map_id
+    FROM pins
+    WHERE user_id = $1;`, [id])
+    .then((res) => {
+      return res.rows;
+    })
+}
 
 // this function is what inserts the pin form data into the pins database
 // the create function is used in routes/pins-api.js

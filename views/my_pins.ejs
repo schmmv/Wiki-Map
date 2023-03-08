@@ -10,13 +10,13 @@
 
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="/vendor/border-box.css" />
-  <link rel="stylesheet" href="/styles/myMaps.css" />
+  <link rel="stylesheet" href="/styles/myPins.css" />
   <link rel="stylesheet" href="/styles/header.css" />
 
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <script src="/vendor/jquery-3.0.0.js"></script>
-  <script defer src="/scripts/favourite.js"></script>
+
 
 
 
@@ -25,26 +25,24 @@
 
 <body>
   <%- include('partials/_header') %>
-  <h1><%= title %></h1>
+  <h1>My Pins (Maps I've Contributed To)</h1>
   <main class="container">
 
       <section class="cards-container">
-          <% for (let map of maps) { %>
-
-            <div class="card" >
-              <!-- <img src="https://picsum.photos/200/100" alt="trial image"> -->
-              <img src="https://maps.googleapis.com/maps/api/staticmap?center=<%= map.latitude %>,<%= map.longitude %>&zoom=<%= map.zoom %>&size=200x200&key=AIzaSyDZwkpyS2wjI8ak01aR4vc8c8dz7FT5JuE" alt="map-img">
-
-              <div class="card-text">
-                <a href="/maps/<%= map.id %>"><h3 class="card-title"><%= map.title %></h3></a>
-                <% if (map.isFav) { %>
-                  <i id="<%= map.id %>" class="fa-solid fa-heart"></i>
-                <% } else { %>
-                  <i id="<%= map.id %>" class="fa-regular fa-heart"></i>
-                <% } %>
-              </div>
+        <% for (let pin of pins) { %>
+          <div class="card" >
+            <img src="<%= pin.image_url %>" alt="pin-img">
+            <div class="card-text">
+              <div class="text-and-btn">
+              <h3 class="card-title"><%= pin.title %></h3>
+              <form action="/maps/<%= pin.map_id %>">
+                <button type="submit">View</button>
+              </form>
             </div>
-          <% } %>
+              <p class="card-desc"><%= pin.description %></p>
+            </div>
+          </div>
+        <% } %>
       </section>
   </main>
 </body>

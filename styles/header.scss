@@ -3,7 +3,8 @@
 nav {
   position: fixed;
   top:0;
-  font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+  font-family: $font-family;
+  font-size: 24px;
   height: 60px;
   width: 100%;
   background-color: $darkGreen;
@@ -23,6 +24,7 @@ nav {
 
   .home-btn {
     margin-right: 0.5em;
+    cursor: pointer;
   }
 
 }

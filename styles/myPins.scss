@@ -14,8 +14,6 @@ main {
     display: flex;
     flex-direction: column;
 
-
-
     a {
       text-decoration: none;
       color: inherit;
@@ -41,20 +39,20 @@ main {
 
       .card-text {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        i {
-          padding-right: 20px;
-          font-size: 32px;
-          color: rgb(255, 0, 157);
-          &:hover {
-            cursor: pointer;
-          }
+        flex-direction: column;
+        padding-left: 10px;
+        button {
+          // display: inline-block;
+          padding: 10px 20px;
+          text-align: center;
+          text-decoration: none;
+          color: $beige;
+          background-color: $brown;
+          border-radius: 6px;
+          outline: none;
+          cursor: pointer;
         }
-
         h3 {
-          margin: 1em;
           font-size: 16px;
         }
       }
@@ -62,5 +60,12 @@ main {
   }
   .card:hover {
     box-shadow: 0 16px 32px 0 rgba(0,0,0,0.2);
+  }
+
+
+
+  .text-and-btn {
+    display: flex;
+    justify-content: space-between;
   }
 
