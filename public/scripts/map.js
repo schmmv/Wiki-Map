@@ -101,6 +101,10 @@ function initMap() {
   });
 
   let pin;
+  const $formWindow = $('.pin-info-window');
+  const $form = $('#pindrop-form');
+  let orphanMarker;
+
   // Drop a pin on user click
   map.addListener('click', (e) => {
     pin = new google.maps.Marker({
@@ -108,27 +112,29 @@ function initMap() {
       map: map,
       draggable: true, // set pin to draggable
     });
+    orphanMarker = pin;
 
-    const $newPinForm = $('.pin-info-window');
     // set the value of the inputs in the pin form
-    $newPinForm.find('textArea[name="title"]').val("");
-    $newPinForm.find('textArea[name="description"]').val("");
+    $form.find('textArea[name="title"]').val("");
+    $form.find('textArea[name="description"]').val("");
     //look at the latLng object and see what it looks like
-    $newPinForm.find('input[name="lat"]').val(e.latLng.lat);
-    $newPinForm.find('input[name="lng"]').val(e.latLng.lng);
-    $newPinForm.find("#create_pin_button").show();
+    $form.find('input[name="lat"]').val(e.latLng.lat);
+    $form.find('input[name="lng"]').val(e.latLng.lng);
+    $form.find("#create_pin_button").show();
+    $formWindow.show();
+
     // hide the edit and delete buttons when adding a new pin
     $("#edit_pin_button").hide();
     $("#delete_pin_button").hide();
-    $newPinForm.find('.remove-marker').click((e) => {
+    $form.find('.remove-marker').click((e) => {
       //cancel, aka hide it
-      $newPinForm.hide();
+      $form.hide();
       pin.setMap(null);
       e.preventDefault();
     });
     // function will get executed on click of submit button
     $("#create_pin_button").click((e) => {
-      const $form = $('#pindrop-form');
+
       const url = $form.attr('action');
 
       $.post({
@@ -137,7 +143,8 @@ function initMap() {
         dataType: "json",
         encode: true,
       }).done(function (data) {
-        $newPinForm.hide();
+        $form.hide();
+        orphanMarker = null;
         console.log(data);
       });
 
@@ -145,7 +152,7 @@ function initMap() {
 
     });
 
-    $newPinForm.show();
+    $form.show();
   });
 
   $.get("/api/pins", (data, status) => {
@@ -162,22 +169,26 @@ function initMap() {
         draggable: true,
       });
       marker.addListener("click", () => {
-        console.log(marker);
+        console.log('here');
         // show the pin form and set the values for the pin form
-        const $newPinForm = $('.pin-info-window');
-
         $("#create_pin_button").hide();
-        $newPinForm.find('textArea[name="title"]').val(pin.title);
-        $newPinForm.find('textArea[name="description"]').val(pin.description);
-        $newPinForm.find('input[name="lat"]').val(pin.latitude);
-        $newPinForm.find('input[name="lng"]').val(pin.longitude);
-        $newPinForm.show();
+        $("#edit_pin_button").show();
+        $("#delete_pin_button").show();
+        if (orphanMarker){
+          orphanMarker.setMap(null);
+        }
+
+        $form.find('textArea[name="title"]').val(pin.title);
+        $form.find('textArea[name="description"]').val(pin.description);
+        $form.find('input[name="lat"]').val(pin.latitude);
+        $form.find('input[name="lng"]').val(pin.longitude);
+        $formWindow.show();
+
         // if user clicks on the cancel button, the form will disappear
-        $newPinForm.find('.remove-marker').click((e) => {
+        $form.find('.remove-marker').click((e) => {
           //cancel, aka hide it
-          $newPinForm.hide();
+          $formWindow.hide();
           e.preventDefault();
-          textArea.value = '';
         });
 
 
@@ -187,7 +198,7 @@ function initMap() {
             type: "DELETE",
             success: (data) => {
               console.log('deleted');
-              $newPinForm.hide();
+              $form.hide();
               // remove marker from map
               marker.setMap(null);
             }
@@ -197,16 +208,18 @@ function initMap() {
         });
 
         $("#edit_pin_button").click((e) => {
-
+          console.log($form.serialize());
           $.ajax("/api/pins/" + pin.id, {
             type: "PUT",
+            data: $form.serialize(),
+            dataType: "json",
+            encode: true,
             success: (data) => {
               console.log('edited');
-              $newPinForm.hide();
+              $form.hide();
             }
           });
           e.preventDefault();
-          textArea.value = '';
         })
       });
     });
