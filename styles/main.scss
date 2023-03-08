@@ -7,7 +7,7 @@ main {
 
 #map {
   height: 800px;
-  top: 100px;
+  top: 60px;
   width: 100%;
 }
 
@@ -18,8 +18,8 @@ html, body {
 }
 
 .pin-info-window {
-  width: 400px;
-  height: 400px;
+  width: 200px;
+  height: 200px;
   position: absolute;
   z-index: 99;
   display: flex;
