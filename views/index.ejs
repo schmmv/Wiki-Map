@@ -53,29 +53,30 @@
     </div>
 
     <!-- map div -->
-    <div id="wrapper">
-      <div id="map"></div>
-      <input
-          id="places-search" class="controls" type="text"
-          placeholder="What are you searching for?"
-      />
-      <i class="fa-solid fa-map-pin"></i>
-      <div class="pin-info-window" style="display: none;">
-        <form id="pindrop-form" method="POST" action="/api/pins">
-          <input type="hidden" name="lat">
-          <input type="hidden" name="lng">
+    <div id="map"></div>
+    <input
+        id="places-search" class="controls" type="text"
+        placeholder="What are you searching for?"
+    />
+    <i class="fa-solid fa-map-pin"></i>
+    <div class="pin-info-window" style="display: none;">
+      <form id="pindrop-form" method="POST" action="/api/pins">
+        <input type="hidden" name="lat">
+        <input type="hidden" name="lng">
 
-          <label for="title">Pin title:</label><br>
-          <input type="text" id="title" name="title"><br><br>
-          <label for="description">Pin description:</label><br>
-          <input type="text" id="description" name="description"><br><br>
+        <label for="title">Pin title:</label>
+        <textArea id="title" name="title" rows="1" cols="29%"></textArea><br><br>
+        <label for="description">Pin description:</label>
+        <textArea id="description" name="description" rows="1" cols="23%"></textArea><br><br>
+        <footer>
           <button id="create_pin_button" type="submit" form="pindrop-form">Create</button>
           <button id="edit_pin_button" type="submit" form="pindrop-form">Edit</button>
           <button id="delete_pin_button" type="submit" form="pindrop-form">Delete</button>
           <button id="cancel_pin_button" name="remove-marker" class="remove-marker">Cancel</button>
-        </form>
-      </div>
+        </footer>
+      </form>
     </div>
+
     <h2 class="map-name"><%= map.title %></h2>
 
     <div id="mapView"></div>
