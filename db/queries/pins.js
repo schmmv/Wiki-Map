@@ -49,4 +49,37 @@ const create = function (pin) {
     });
 };
 
-module.exports = { getPinsByUserId, create, remove };
+const edit = function (id, pin) {
+  const queryParms = [
+    pin.user_id,
+    pin.map_id,
+    pin.title,
+    pin.description,
+    pin.image_url,
+    pin.lat,
+    pin.lng
+  ];
+
+  const queryString = `
+    UPDATE pins
+    SET
+    user_id = $1,
+    map_id = $2,
+    title = $3,
+    description = $4,
+    image_url = $5,
+    latitude = $6,
+    longitude = $7
+    WHERE id = $8
+    RETURNING *
+  `;
+
+  return db.query(queryString, queryParams, [id])
+    .then((result) => result.rows[0])
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
+}
+
+module.exports = { getPinsByUserId, create, remove, edit };
