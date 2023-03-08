@@ -38,7 +38,7 @@ body {
   // justify-content: center;
   // align-items: center;
   // min-height: 100vh;
-
+  padding-top: 80px;
   background: $green;
 }
 
@@ -79,6 +79,8 @@ body {
 #user-links {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   color: $beige;
 
   div {
