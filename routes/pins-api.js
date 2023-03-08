@@ -25,7 +25,7 @@ router.get('/', (req, res) => {
 
 
 router.post('/', (req, res) => {
-  // const userId = req.session.userId;
+  const userId = req.session.user_id;
   console.log(req.body);
   // the create function comes from db/queries/pins.js
   pins.create({...req.body})
