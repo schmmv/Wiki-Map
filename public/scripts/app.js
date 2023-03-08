@@ -11,11 +11,13 @@ function initMapView() {
     });
     const infoWindow = new google.maps.InfoWindow();
     // The markers
+
     $.ajax({
       method: 'GET',
-      url: '/api/pins'
+      url: `/api/pins/${mapData.id}`
     })
     .done((response) => {
+
       const pins = response.pins;
 
       for (const pin of pins) {
