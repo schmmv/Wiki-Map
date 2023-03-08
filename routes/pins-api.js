@@ -48,7 +48,7 @@ router.put('/:id', (req, res) => {
   const pinId = req.params.id
   // capture the queryParams from the req.body
   let formData = {...req.body};
-  pins.update(pinId, formData)
+  pins.update(pinId, formData, req.session.user_id)
   .then(pin => {
     console.log('pin response:', pin);
     res.send(pin);
@@ -63,12 +63,10 @@ router.put('/:id', (req, res) => {
 router.delete('/:id', (req, res) => {
   const pinId = req.params.id
   console.log(pinId);
-  pins.remove(pinId).then(pin => {
+  pins.remove(pinId, req.session.user_id).then(pin => {
     console.log("pin deleted");
     res.send("Pin deleted");
   })
-
-  // todo: actually delete
 
 });
 
