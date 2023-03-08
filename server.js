@@ -63,7 +63,7 @@ app.get('/login/:id', (req, res) => {
 
 app.get('/', (req, res) => {
   const userID = req.session.user_id;
-  const templateVars = { map: {latitude: 0, longitude: 0, zoom: 0}, user: userID };
+  const templateVars = { map: {latitude: 0, longitude: 0, zoom: 0}, user: userID, key: process.env.API_KEY };
   res.render('index', templateVars);
 });
 app.post('/logout', (req, res) => {
