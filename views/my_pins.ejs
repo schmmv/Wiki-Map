@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Maps</title>
+
+  <meta charset="UTF-8" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" >
+
+  <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
+  <link rel="stylesheet" href="/vendor/border-box.css" />
+  <link rel="stylesheet" href="/styles/myPins.css" />
+  <link rel="stylesheet" href="/styles/header.css" />
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <script src="/vendor/jquery-3.0.0.js"></script>
+
+
+
+
+  <!-- update -->
+</head>
+
+<body>
+  <%- include('partials/_header') %>
+  <h1>My Pins (Maps I've Contributed To)</h1>
+  <main class="container">
+
+      <section class="cards-container">
+        <% for (let pin of pins) { %>
+          <div class="card" >
+            <img src="<%= pin.image_url %>" alt="pin-img">
+            <div class="card-text">
+              <div class="text-and-btn">
+              <h3 class="card-title"><%= pin.title %></h3>
+              <form action="/maps/<%= pin.map_id %>">
+                <button type="submit">View</button>
+              </form>
+            </div>
+              <p class="card-desc"><%= pin.description %></p>
+            </div>
+          </div>
+        <% } %>
+      </section>
+  </main>
+</body>
+
+</html>
