@@ -38,19 +38,15 @@
               <div class="card-text">
                 <a href="/maps/<%= map.id %>"><h3 class="card-title"><%= map.title %></h3></a>
                 <% if (map.isFav) { %>
-                <i id="<%= map.id %>" class="fa-solid fa-heart"></i>
+                  <i id="<%= map.id %>" class="fa-solid fa-heart"></i>
                 <% } else { %>
                   <i id="<%= map.id %>" class="fa-regular fa-heart"></i>
                 <% } %>
               </div>
-
-          </div>
-        </a>
+            </div>
           <% } %>
-
-        </section>
-
-</main>
+      </section>
+  </main>
 </body>
 
 </html>
