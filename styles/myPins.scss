@@ -1,0 +1,71 @@
+@import '_helpers.scss';
+
+body {
+  padding-top: 80px;
+  background-color: $green;
+  font-family: $font-family;
+}
+
+main {
+  display: flex;
+  justify-content: center;
+}
+  .cards-container {
+    display: flex;
+    flex-direction: column;
+
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+
+    .card {
+
+      margin: auto;
+      margin-bottom: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      width: 75%;
+      background: $beige;
+      box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+      border-radius: 5px;
+
+      img {
+        border-radius: 5px 5px 0 0;
+        width: 100%;
+      }
+
+      .card-text {
+        display: flex;
+        flex-direction: column;
+        padding-left: 10px;
+        button {
+          // display: inline-block;
+          padding: 10px 20px;
+          text-align: center;
+          text-decoration: none;
+          color: $beige;
+          background-color: $brown;
+          border-radius: 6px;
+          outline: none;
+          cursor: pointer;
+        }
+        h3 {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+  .card:hover {
+    box-shadow: 0 16px 32px 0 rgba(0,0,0,0.2);
+  }
+
+
+
+  .text-and-btn {
+    display: flex;
+    justify-content: space-between;
+  }
+
