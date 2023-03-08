@@ -43,6 +43,22 @@ router.post('/', (req, res) => {
   });
 });
 
+router.put('/:id', (req, res) => {
+  // capture the pin id
+  const pinId = req.params.id
+  // capture the queryParams from the req.body
+  let formData = {...req.body};
+  pins.update(pinId, formData)
+  .then(pin => {
+    console.log('pin response:', pin);
+    res.send(pin);
+  })
+  .catch(e => {
+    console.error(e);
+    res.send(e)
+  });
+});
+
 
 router.delete('/:id', (req, res) => {
   const pinId = req.params.id
