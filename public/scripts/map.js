@@ -125,16 +125,22 @@ function initMap() {
       $newPinForm.hide();
     });
     // function will get executed on click of submit button
-    $("button").click((e) => {
+    $("#create_pin_button").click((e) => {
       const $form = $('#pindrop-form');
       const url = $form.attr('action');
-      //submit the form via ajax and display success message or error
-      $.post(url, {
-        data: $form.serialize()
-      },
-      function(data, status) {
-        alert('Pin submitted successfully', null);
-      })
+
+      $.post({
+        url: url,
+        data: $form.serialize(),
+        dataType: "json",
+        encode: true,
+      }).done(function (data) {
+        $newPinForm.hide();
+        console.log(data);
+      });
+
+      e.preventDefault();
+
     });
 
     $newPinForm.show();
