@@ -25,9 +25,6 @@
   <script async
   src="https://maps.googleapis.com/maps/api/js?v=beta&key=<%=key%>&libraries=places,marker&callback=initMap">
   </script>
-  <!-- Michele's Key? <script async
-      src="https://maps.googleapis.com/maps/api/js?v=beta&key=AIzaSyBVved6raL6c4ZPgzHRy0XXYzcPoqyZ9pI&libraries=places,marker&callback=initMap">
-  </script> -->
 
   <!-- App JS -->
   <script defer src="/scripts/map.js"></script>
@@ -53,13 +50,12 @@
     </div>
 
     <!-- map div -->
-    <div id="map"></div>
-    <input
-        id="places-search" class="controls" type="text"
-        placeholder="What are you searching for?"
-    />
+    <div id="map">
+      <input id="pac-input" class="controls" type="text" placeholder="Search Box"
+      />
+    </div>
     <i class="fa-solid fa-map-pin"></i>
-    <div class="pin-info-window" style="display: none;">
+    <div class="pin-info-window" style="display: none">
       <form id="pindrop-form" method="POST" action="/api/pins">
         <input type="hidden" name="lat">
         <input type="hidden" name="lng">
@@ -70,7 +66,7 @@
         <textArea id="description" name="description" rows="1" cols="23%"></textArea><br><br>
         <footer>
           <button id="create_pin_button" type="submit" form="pindrop-form">Create</button>
-          <button id="edit_pin_button" type="submit" form="pindrop-form">Save</button>
+          <button id="edit_pin_button" type="submit" form="pindrop-form">Save Changes</button>
           <button id="delete_pin_button" type="submit" form="pindrop-form">Delete</button>
           <button id="cancel_pin_button" name="remove-marker" class="remove-marker">Cancel</button>
         </footer>
