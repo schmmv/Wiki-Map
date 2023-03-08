@@ -11,6 +11,7 @@ const router  = express.Router();
 const db = require('../db/queries/users');
 const mapQueries = require('../db/queries/maps');
 const favQueries = require('../db/queries/favourites');
+const pinQueries = require('../db/queries/pins');
 
 
 // /api/users
@@ -87,5 +88,17 @@ router.post('/favourites/:mapid', (req, res) => {
   });
 
 });
+
+router.get('/pins/:mapId', (req, res) => {
+  console.log('in route');
+  pinQueries.getPinsByMapId(req.params.mapId)
+  .then((pins) => {
+
+    res.json({ pins });
+  })
+  .catch(err => {
+    res.status(500).json({ error: err.message });
+  });
+})
 
 module.exports = router;
