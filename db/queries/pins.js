@@ -17,9 +17,9 @@ const getPinsByUserId = function(id) {
   })
 }
 
-const remove = function (id) {
-  const queryString = `DELETE FROM pins WHERE id = $1`;
-  return db.query(queryString, [id]);
+const remove = function (id, userId) {
+  const queryString = `DELETE FROM pins WHERE id = $1 AND user_id = $2`;
+  return db.query(queryString, [id, userId]);
 }
 
 // this function is what inserts the pin form data into the pins database
@@ -49,32 +49,36 @@ const create = function (pin) {
     });
 };
 
-const edit = function (id, pin) {
-  const queryParms = [
-    pin.user_id,
+const update = function (id, pin, user_id) {
+  const queryParams = [
     pin.map_id,
     pin.title,
     pin.description,
     pin.image_url,
     pin.lat,
-    pin.lng
+    pin.lng,
+    id,
+    user_id
   ];
 
   const queryString = `
-    UPDATE pins
+    UPDATE
+      pins
     SET
-    user_id = $1,
-    map_id = $2,
-    title = $3,
-    description = $4,
-    image_url = $5,
-    latitude = $6,
-    longitude = $7
-    WHERE id = $8
+      map_id = $1,
+      title = $2,
+      description = $3,
+      image_url = $4,
+      latitude = $5,
+      longitude = $6
+    WHERE
+      id = $7
+      AND
+      user_id = $8
     RETURNING *
   `;
 
-  return db.query(queryString, queryParams, [id])
+  return db.query(queryString, queryParams)
     .then((result) => result.rows[0])
     .catch((err) => {
       console.error(err);
@@ -82,4 +86,4 @@ const edit = function (id, pin) {
     });
 }
 
-module.exports = { getPinsByUserId, create, remove, edit };
+module.exports = { getPinsByUserId, create, remove, update };
