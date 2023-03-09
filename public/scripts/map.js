@@ -231,6 +231,56 @@ function initMap() {
     });
     console.log(data);
   });
+
+  //* Save a map
+  // https://developers.google.com/maps/documentation/javascript/shapes#rectangles
+  const $saveMapWindow = $(".save-map-form-window");
+  const $saveMapForm = $('.map-form-container');
+  $(".open-button").click((e) => {
+
+    $(".open-button").hide();
+  // set the value of the inputs in the pin form
+    $saveMapForm.find('input[name="title"]').val("");
+    $saveMapForm.find('input[name="category"]').val("");
+    //add the lat and long from Google but keep it hidden
+    // $saveMapForm.find('input[name="lat"]').val(latLng.lat).toSpan();
+    // $saveMapForm.find('input[name="lng"]').val(latLng.lng).
+    // $saveMapForm.find('input[name="zoom]').val(8);
+    $saveMapForm.find("#save-map-btn").show();
+    $saveMapWindow.show();
+    // remove the popup if the user clicks cancel
+    $saveMapForm.find('.btn-cancel').click((e) => {
+      e.preventDefault();
+      //cancel, aka hide the form
+      $saveMapWindow.hide();
+
+    });
+
+    // function will get executed on click of submit button
+    $("#save-map-btn").click((e) => {
+      let savedMap = Map;
+      savedMap.getCenter().getZoom();
+
+      const url = $saveMapForm.attr('action');
+      // ajax POST request to /api/maps
+      $.post({
+        url: url,
+        data: $saveMapForm.serialize(),
+        dataType: "json",
+        encode: true,
+      }).done(function (data) {
+        $saveMapWindow.hide();
+        console.log(data);
+      });
+      e.preventDefault();
+    });
+
+    $saveMapForm.show();
+  });
+
+
+
+
 }
 
 //* Geolocation function

@@ -52,13 +52,12 @@ main {
 .pac-controls {
   display: inline-block;
   padding: 5px 11px;
-  top
 }
 
 .pac-controls label {
   font-family: Roboto, Arial, sans-serif;
   font-size: 13px;
-  font-weight: 300;
+  font-weight: 300
 }
 
 #pac-input {
@@ -134,6 +133,91 @@ body {
   padding-top: 60px;
   background: $green;
 }
+
+// save map button and form
+.open-button {
+  background-color: #8d8c8c;
+  color: black;
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  opacity: 0.9;
+  position: fixed;
+  top: 15%;
+  right: 2em;
+  width: 10em;
+  font-family: Roboto, Arial, sans-serif;
+  font-size: 18px;
+}
+
+/* The popup form - hidden by default */
+.save-map-form-window {
+  display: block;
+  position: fixed;
+  background-color: #fff;
+  top: 10%;
+  right: 2em;
+  border: 3px solid #f1f1f1;
+  z-index: 9;
+  border-radius:8px;
+  box-shadow: 0 1px 2px rgba(60,64,67,0.3),0 1px 3px 1px rgba(60,64,67,0.15);
+  font-family: Roboto, Arial, sans-serif;
+}
+
+/* Add styles to the form container */
+.map-form-container {
+  max-width: 300px;
+  padding: 10px;
+  background-color: white;
+
+}
+
+/* Full-width input fields */
+.map-form-container input[type=text] {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  border: 1px black;
+  background: #ddd;
+}
+
+/* When the inputs get focus, do something */
+.map-form-container input[type=text]:focus {
+  background-color: #ddd;
+  outline: none;
+  border: 1px black;
+}
+
+/* Set a style for the save button */
+.map-form-container .btn {
+  background-color: #a7edd3;
+  color: rgb(0, 0, 0);
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 40%;
+  margin-bottom:10px;
+  opacity: 0.9;
+}
+
+/* Add a red background color to the cancel button */
+.map-form-container .btn-cancel {
+  background-color: rgb(236, 209, 209);
+  color: rgb(0, 0, 0);
+  padding: 16px 20px;
+  border: none;
+  cursor: pointer;
+  width: 40%;
+  margin-bottom:10px;
+  opacity: 0.9;
+
+}
+
+/* Add some hover effects to buttons */
+.map-form-container .btn:hover, btn-cancel:hover, .open-button:hover {
+  opacity: 1;
+}
+
 
 //user-landing-page
 .profile-header {
