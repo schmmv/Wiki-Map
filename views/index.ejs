@@ -28,7 +28,7 @@
 
   <!-- App JS -->
   <script defer src="/scripts/map.js"></script>
-  <script defer src="/scripts/app.js"></script>
+  <!-- <script defer src="/scripts/app.js"></script> -->
 
   <script>
     const mapData = {
@@ -72,9 +72,8 @@
       </form>
     </div>
 
-    <button class="open-button">Save Map</button>
+    <button class="open-button">Save New Map</button>
     <div class="save-map-form-window" id="save_map" style="display: none">
-      <button class="open-button">Save Map</button>
       <form method="POST" action="/api/maps" class="map-form-container">
         <input type="hidden" name="lat">
         <input type="hidden" name="lng">
@@ -83,7 +82,7 @@
         <input type="text" name="title" required></input>
         <label for="description"><b>Map category</b></label>
         <input type="text" name="category" required></input>
-        <button type="submit" id="save-map-btn" class="btn"><b>Save Map</b></button>
+        <button type="submit" id="save-map-btn" class="btn"><b>Save</b></button>
         <button type="button" name="remove-map" class="btn-cancel"><b>Cancel</b></button>
       </form>
     </div>
