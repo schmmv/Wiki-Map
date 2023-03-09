@@ -20,7 +20,7 @@ const getFavMapsByUserId = function(id) {
     FROM maps
     JOIN favourites ON maps.id = map_id
     JOIN users ON users.id = favourites.user_id
-    WHERE favourites.user_id = $1`, [id])
+    WHERE favourites.user_id = $1;`, [id])
     .then(data => {
       console.log(data.rows);
       return data.rows;
@@ -41,7 +41,7 @@ const removeFavById = function(id) {
   return db.query(`
     DELETE FROM favourites
     WHERE id = $1
-    RETURNING *`, [id]);
+    RETURNING *;`, [id]);
 }
 
 
