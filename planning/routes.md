@@ -15,10 +15,10 @@ Browse, Read, Edit, Add, Delete
 - ~~D   DELETE         /maps/:id/delete   delete map~~
 ---
 - ~~B   GET            /pins              redirect to home screen of public maps?~~
-- ~~R   GET            /pins/:id          view single pin~~
-- E   POST or PATCH  /pins/:id          edit a pin
-- A   POST           /pins              add a pin
-- D   POST           /pins/:id/delete   delete a pin
+- ~~R   GET            api/pins/:id          view single pin~~
+- [x] E   PUT             api/pins/:id          edit a pin
+- [x] A   POST           api/pins              add a pin
+- [x] D   POST           api/pins/:id/delete   delete a pin
 ---
 - ~~B   GET            /favourites        redir to home screen of public maps~~
 - [x] R   GET            /users/:id/favourites    user's favourites
