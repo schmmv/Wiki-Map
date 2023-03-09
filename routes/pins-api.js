@@ -23,16 +23,15 @@ router.get('/', (req, res) => {
     });
 });
 
-
-router.post('/', (req, res) => {
+//add a pin to a particular map /api/pins/:mapId/add
+router.post('/:mapId/add', (req, res) => {
   const userId = req.session.user_id;
-  console.log(req.body);
+  const mapId = req.params.mapId;
   // the create function comes from db/queries/pins.js
-  let formData = {...req.body};
-  formData.user_id = userId;
-  pins.create(formData)
+  let formData = req.body;
+
+  pins.createPin(formData, mapId, userId)
   .then(pin => {
-    console.log('pin response:', pin);
     // sends the HTTP response. parameter describes the body to be send in the response.
     // it returns an object
     res.send(pin);
