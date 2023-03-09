@@ -90,10 +90,13 @@ router.post('/favourites/:mapid', (req, res) => {
 });
 
 router.get('/pins/:mapId', (req, res) => {
-  console.log('in route');
+
   pinQueries.getPinsByMapId(req.params.mapId)
   .then((pins) => {
-
+    for (const pin of pins) {
+      pin.isMine = (pin.user_id === Number(req.session.user_id));
+      delete pin.user_id;
+    }
     res.json({ pins });
   })
   .catch(err => {

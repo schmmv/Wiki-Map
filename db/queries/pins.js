@@ -3,7 +3,7 @@ const db = require('../connection');
 const getPinsByMapId = function(mapId) {
   return db.query(`
     SELECT
-    id, title, description, image_url, map_id, latitude, longitude
+    id, title, description, image_url, map_id, latitude, longitude, user_id
     FROM pins
     WHERE map_id = $1;`, [mapId])
     .then((res) => {
@@ -29,28 +29,29 @@ const getPinsByUserId = function(id) {
 }
 
 const remove = function (id, userId) {
-  const queryString = `DELETE FROM pins WHERE id = $1 AND user_id = $2`;
+  const queryString = `DELETE FROM pins WHERE id = $1 AND user_id = $2;`;
   return db.query(queryString, [id, userId]);
 }
 
 // this function is what inserts the pin form data into the pins database
 // the create function is used in routes/pins-api.js
-const create = function (pin) {
-  console.log(pin);
+const createPin = function (pin, mapId, userId) {
+  console.log(pin.title);
   const queryParams = [
-    pin.user_id,
-    pin.map_id,
+    mapId,
+    userId,
     pin.title,
     pin.description,
-    pin.image_url,
+    pin.img,
     pin.lat,
     pin.lng
+
   ];
 
   const queryString = `
   INSERT INTO pins (user_id, map_id, title, description, image_url, latitude, longitude)
     VALUES ($1, $2, $3, $4, $5, $6, $7)
-    RETURNING *`;
+    RETURNING *;`;
 
   return db.query(queryString, queryParams)
     .then((result) => result.rows[0])
@@ -61,42 +62,34 @@ const create = function (pin) {
 };
 
 
-const update = function (id, pin, user_id) {
+const updatePin = function (id, pin) {
   const queryParams = [
-    pin.map_id,
     pin.title,
     pin.description,
-    pin.image_url,
-    pin.lat,
-    pin.lng,
-    id,
-    user_id
+    pin.img,
+    id
   ];
 
   const queryString = `
     UPDATE
       pins
     SET
-      map_id = $1,
-      title = $2,
-      description = $3,
-      image_url = $4,
-      latitude = $5,
-      longitude = $6
+      title = $1,
+      description = $2,
+      image_url = $3
     WHERE
-      id = $7
-      AND
-      user_id = $8
-    RETURNING *
-  `;
+      id = $4
+    RETURNING *;`;
 
   return db.query(queryString, queryParams)
-    .then((result) => result.rows[0])
+    .then((result) => {
+      console.log('query returning:', result.rows[0])
+    return result.rows[0]})
     .catch((err) => {
       console.error(err);
       throw err;
     });
 }
 
-module.exports = { getPinsByUserId, create, remove, update, getPinsByMapId };
+module.exports = { getPinsByUserId, createPin, remove, updatePin, getPinsByMapId };
 

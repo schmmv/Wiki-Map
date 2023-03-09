@@ -23,16 +23,15 @@ router.get('/', (req, res) => {
     });
 });
 
-
-router.post('/', (req, res) => {
+//add a pin to a particular map /api/pins/:mapId/add
+router.post('/:mapId/add', (req, res) => {
   const userId = req.session.user_id;
-  console.log(req.body);
+  const mapId = req.params.mapId;
   // the create function comes from db/queries/pins.js
-  let formData = {...req.body};
-  formData.user_id = userId;
-  pins.create(formData)
+  let formData = req.body;
+
+  pins.createPin(formData, mapId, userId)
   .then(pin => {
-    console.log('pin response:', pin);
     // sends the HTTP response. parameter describes the body to be send in the response.
     // it returns an object
     res.send(pin);
@@ -43,6 +42,41 @@ router.post('/', (req, res) => {
   });
 });
 
+/** Michele's routes for one-map view page
+ * POST for edit and delete pins
+ *******************************/
+//edit pin /api/pins/:id
+router.post('/:id', (req, res) => {
+  // capture the pin id
+  const pinId = req.params.id
+  // capture the queryParams from the req.body
+  console.log('sent data:', req.body);
+  let formData = (req.body);
+
+  pins.updatePin(pinId, formData)
+  .then(pin => {
+    console.log('pin response:', pin);
+    res.send(pin);
+  })
+  .catch(e => {
+    console.error(e);
+    res.send(e)
+  });
+});
+
+//delete pin /api/pins/:Id/delete
+router.post('/:id/delete', (req, res) => {
+  const pinId = req.params.id
+  console.log(pinId);
+  pins.remove(pinId, req.session.user_id).then(pin => {
+    res.send("Pin deleted");
+  })
+
+});
+
+/**Karilyn's routes
+ * for edit/delete pins from root page
+ **************************************/
 router.put('/:id', (req, res) => {
   // capture the pin id
   const pinId = req.params.id
@@ -67,7 +101,6 @@ router.delete('/:id', (req, res) => {
     console.log("pin deleted");
     res.send("Pin deleted");
   })
-
-});
+})
 
 module.exports = router;
