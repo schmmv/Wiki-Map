@@ -24,7 +24,7 @@ const getMapsByUserId = function(id) {
     SELECT maps.title, maps.id, user_id, latitude, longitude, zoom
     FROM users
     JOIN maps ON users.id = user_id
-    WHERE user_id = $1`, [id])
+    WHERE user_id = $1;`, [id])
     .then(data => {
       return data.rows;
     });
