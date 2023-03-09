@@ -41,9 +41,13 @@ router.get('/:id', (req, res) => {
   mapQueries.getMapById(mapID)
   .then(map => {
     const templateVars = { map, user: userID, key }
-    res.render('one_map', templateVars)
+    res.render('one_map', templateVars);
   })
 })
+
+
+
+
 
 module.exports = router;
 
