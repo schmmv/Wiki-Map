@@ -58,7 +58,7 @@ app.use('/maps', mapsRoutes);
 app.get('/login/:id', (req, res) => {
   // using encrypted cookies
   req.session.user_id = req.params.id;
-  res.redirect('/');
+  res.redirect(`/users/${req.params.id}`);
 });
 
 app.get('/', (req, res) => {

@@ -11,6 +11,7 @@ const db = require('../db/queries/users');
 const mapQueries = require('../db/queries/maps');
 const pinQueries = require('../db/queries/pins');
 const favQueries = require('../db/queries/favourites');
+const key = process.env.API_KEY;
 
 // /users/:id
 router.get('/:id', (req, res) => {
@@ -46,7 +47,8 @@ router.get('/:id/maps', (req, res) => {
       const templateVars = {
         maps,
         user: userID,
-        title: 'My Maps'
+        title: 'My Maps',
+        key
       }
       res.render('maps', templateVars);
 
@@ -72,7 +74,7 @@ router.get('/:id/favourites', (req, res) => {
       for (const map of maps) {
         map.isFav = true;
       }
-      const templateVars = { maps: maps, user: userID, title: 'My Favourites' };
+      const templateVars = { maps: maps, user: userID, title: 'My Favourites', key };
       res.render('maps', templateVars);
     })
     .catch(err => {
@@ -89,7 +91,7 @@ router.get('/:id/pins', (req, res) => {
   pinQueries.getPinsByUserId(userID)
     .then(pins => {
       // res.json({ pins });
-      const templateVars = { pins: pins, user: userID };
+      const templateVars = { pins: pins, user: userID, key };
       res.render('my_pins', templateVars);
     })
     .catch(err => {

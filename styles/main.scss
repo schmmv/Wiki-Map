@@ -142,10 +142,7 @@ body {
   justify-content: center;
   align-items: center;
   color: $beige;
-
-  img {
-    border-radius: 50%;
-  }
+  padding-top: 20px;
 
   .user {
     display: flex;
@@ -156,6 +153,7 @@ body {
       justify-content: center;
       margin-top: 1em;
       margin-bottom: 0;
+      font-size: 32px;
 
 
     }
@@ -163,6 +161,7 @@ body {
       display: flex;
       justify-content: center;
       margin-top: 1em;
+      font-size: 18px;
 
     }
   }
@@ -175,6 +174,7 @@ body {
   justify-content: center;
   align-items: center;
   color: $beige;
+  font-size: 24px;
 
   div {
     display:flex;
@@ -184,14 +184,23 @@ body {
   }
 
   i {
-    width: 35px;
+    // width: 35px;
     padding-right: 0.5em;
     padding-left: 0.5em;
-    text-align: center;
-    color: $brown;
+    // text-align: center;
+    color: $darkGreen;
 
   }
-
+  button {
+    background-color: $beige;
+    color: $darkGreen;
+    border-radius: 10px;
+    margin-top: 20px;
+    &:hover {
+      cursor: pointer;
+      background-color: $lightBrown;
+    }
+  }
   a {
     text-decoration: none;
     color: inherit;
