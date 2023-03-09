@@ -30,4 +30,31 @@ const getMapsByUserId = function(id) {
     });
 }
 
-module.exports = { getAllMaps, getMapById, getMapsByUserId };
+
+const createMap = function (map) {
+  console.log(map);
+  const queryParams = [
+    map.user_id,
+    map.title,
+    map.category,
+    map.lat,
+    map.lng,
+    map.zoom
+  ];
+
+  const queryString = `
+  INSERT INTO maps (user_id, title, category, latitude, longitude, zoom)
+    VALUES ($1, $2, $3, $4, $5, $6)
+    RETURNING *`;
+
+  return db.query(queryString, queryParams)
+    .then((result) => result.rows[0])
+    .catch((err) => {
+      console.error(err);
+      throw err;
+    });
+};
+
+
+
+module.exports = { getAllMaps, getMapById, getMapsByUserId, createMap };

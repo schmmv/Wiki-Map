@@ -39,7 +39,7 @@ const apiRoutes = require('./routes/apiRoutes');
 const pinApiRoutes = require('./routes/pins-api');
 const usersRoutes = require('./routes/users');
 const mapsRoutes = require('./routes/maps');
-
+const mapApiRoutes = require('./routes/maps-api');
 
 // Mount all resource routes
 // Note: Feel free to replace the example routes below with your own
@@ -48,6 +48,7 @@ app.use('/api', apiRoutes);
 app.use('/api/pins', pinApiRoutes);
 app.use('/users', usersRoutes);
 app.use('/maps', mapsRoutes);
+app.use('/api/maps', mapApiRoutes);
 
 // Note: mount other resources here, using the same pattern above
 
@@ -66,6 +67,7 @@ app.get('/', (req, res) => {
   const templateVars = { map: {id: 0, latitude: 0, longitude: 0, zoom: 0}, user: userID, key: process.env.API_KEY };
   res.render('index', templateVars);
 });
+
 app.post('/logout', (req, res) => {
   req.session = null;
   res.redirect('/');

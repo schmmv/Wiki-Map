@@ -12,69 +12,68 @@ function initMap() {
   });
 
   //* Google maps Places Search
-  function initAutocomplete() {
-    // Create the search box and link it to the UI element.
-    const input = document.getElementById("places-search");
-    const searchBox = new google.maps.places.SearchBox(input);
+  // Create the search box and link it to the UI element.
+  const input = document.getElementById("pac-input");
+  const searchBox = new google.maps.places.SearchBox(input);
 
-    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);
-    // Bias the SearchBox results towards current map's viewport.
-    map.addListener("bounds_changed", () => {
-      searchBox.setBounds(map.getBounds());
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener("bounds_changed", () => {
+    searchBox.setBounds(map.getBounds());
+  });
+
+  let markers = [];
+
+  // Listen for the event fired when the user selects a prediction and retrieve more details for that place.
+  searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+    // Clear out the old markers.
+    markers.forEach((marker) => {
+      marker.setMap(null);
     });
+    markers = [];
 
-    let markers = [];
+    // For each place, get the icon, name and location.
+    const bounds = new google.maps.LatLngBounds();
 
-    // Listen for the event fired when the user selects a prediction and retrieve more details for that place.
-    searchBox.addListener("places_changed", () => {
-      const places = searchBox.getPlaces();
-
-      if (places.length == 0) {
+    places.forEach((place) => {
+      if (!place.geometry || !place.geometry.location) {
+        console.log("Returned place contains no geometry");
         return;
       }
-      // Clear out the old markers.
-      markers.forEach((marker) => {
-        marker.setMap(null);
-      });
-      markers = [];
 
-      // For each place, get the icon, name and location.
-      const bounds = new google.maps.LatLngBounds();
+      const icon = {
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25),
+      };
 
-      places.forEach((place) => {
-        if (!place.geometry || !place.geometry.location) {
-          console.log("Returned place contains no geometry");
-          return;
-        }
-
-        const icon = {
-          url: place.icon,
-          size: new google.maps.Size(71, 71),
-          origin: new google.maps.Point(0, 0),
-          anchor: new google.maps.Point(17, 34),
-          scaledSize: new google.maps.Size(25, 25),
-        };
-
-        // Create a marker for each place.
-        markers.push(
-          new google.maps.Marker({
-            map,
-            icon,
-            title: place.name,
-            position: place.geometry.location,
-          })
-        );
-        if (place.geometry.viewport) {
-          // Only geocodes have viewport.
-          bounds.union(place.geometry.viewport);
-        } else {
-          bounds.extend(place.geometry.location);
-        }
-      });
-      map.fitBounds(bounds);
+      // Create a marker for each place.
+      markers.push(
+        new google.maps.Marker({
+          map,
+          icon,
+          title: place.name,
+          position: place.geometry.location,
+        })
+      );
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
     });
-    initAutocomplete();
-  }
+    map.fitBounds(bounds);
+  });
+
+
 
   //* Google maps geolocation functionality
   let infoWindow = new google.maps.InfoWindow();
@@ -232,6 +231,58 @@ function initMap() {
     });
     console.log(data);
   });
+
+  //* Save a map
+  // https://developers.google.com/maps/documentation/javascript/shapes#rectangles
+  const $mapWindow = $(".save-map-form-window");
+  const $mapForm = $('.map-form-container');
+  $(".open-button").click((e) => {
+
+    $(".open-button").hide();
+  // set the value of the inputs in the pin form
+    $mapForm.find('input[name="title"]').val("");
+    $mapForm.find('input[name="category"]').val("");
+    //add the lat and long from Google but keep it hidden
+    // $mapForm.find('input[name="lat"]').val(latLng.lat).toSpan();
+    // $mapForm.find('input[name="lng"]').val(latLng.lng).
+    // $mapForm.find('input[name="zoom]').val(8);
+    $mapForm.find("#save-map-btn").show();
+    $mapWindow.show();
+    // remove the popup if the user clicks cancel
+    $mapForm.find('.btn-cancel').click((e) => {
+      e.preventDefault();
+      //cancel, aka hide the form
+      $mapWindow.hide();
+
+    });
+
+    // function will get executed on click of submit button
+    $("#save-map-btn").click((e) => {
+      const center = map.getCenter();
+      $mapForm.find('input[name=lat]').val(center.lat());
+      $mapForm.find('input[name=lng]').val(center.lng());
+      $mapForm.find('input[name=zoom]').val(map.getZoom())
+
+      const url = $mapForm.attr('action');
+      // ajax POST request to /api/maps
+
+      $.post({
+        url: url,
+        data: $mapForm.serialize(),
+        dataType: "json",
+        encode: true
+      }).done(function (data) {
+        // $mapWindow.hide();
+      });
+      e.preventDefault();
+    });
+
+    $mapForm.show();
+  });
+
+
+
+
 }
 
 //* Geolocation function

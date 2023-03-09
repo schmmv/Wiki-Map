@@ -11,7 +11,7 @@ Browse, Read, Edit, Add, Delete
 - [x] B   GET            /maps              home screen of public maps
 - [x] R   GET            /maps/:id          view single map
 - ~~E   POST or PATCH  /maps/:id          edit map~~
-- A   POST           /maps              add new map
+- A   POST           /api/maps              add new map
 - ~~D   DELETE         /maps/:id/delete   delete map~~
 ---
 - ~~B   GET            /pins              redirect to home screen of public maps?~~

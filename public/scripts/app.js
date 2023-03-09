@@ -1,11 +1,12 @@
+
 //called from the one_map.ejs view template
 // Initialize and add the map
+let map;
 function initMapView() {
 
     //use mapData passed to ejs one_map template
     const center = { lat: mapData.lat, lng: mapData.lng };
-
-    const map = new google.maps.Map(document.getElementById("map"), {
+    map = new google.maps.Map(document.getElementById("map"), {
       zoom: mapData.zoom,
       center
     });
