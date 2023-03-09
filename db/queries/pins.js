@@ -35,16 +35,17 @@ const remove = function (id, userId) {
 
 // this function is what inserts the pin form data into the pins database
 // the create function is used in routes/pins-api.js
-const create = function (pin) {
-  console.log(pin);
+const createPin = function (pin, mapId, userId) {
+  console.log(pin.title);
   const queryParams = [
-    pin.user_id,
-    pin.map_id,
+    mapId,
+    userId,
     pin.title,
     pin.description,
-    pin.image_url,
+    pin.img,
     pin.lat,
     pin.lng
+
   ];
 
   const queryString = `
@@ -90,5 +91,5 @@ const updatePin = function (id, pin) {
     });
 }
 
-module.exports = { getPinsByUserId, create, remove, updatePin, getPinsByMapId };
+module.exports = { getPinsByUserId, createPin, remove, updatePin, getPinsByMapId };
 
