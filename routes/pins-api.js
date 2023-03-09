@@ -43,6 +43,9 @@ router.post('/', (req, res) => {
   });
 });
 
+/** Michele's routes for one-map view page
+ * POST for edit and delete pins
+ *******************************/
 //edit pin /api/pins/:id
 router.post('/:id', (req, res) => {
   // capture the pin id
@@ -71,5 +74,34 @@ router.post('/:id/delete', (req, res) => {
   })
 
 });
+
+/**Karilyn's routes
+ * for edit/delete pins from root page
+ **************************************/
+router.put('/:id', (req, res) => {
+  // capture the pin id
+  const pinId = req.params.id
+  // capture the queryParams from the req.body
+  let formData = {...req.body};
+  pins.update(pinId, formData, req.session.user_id)
+  .then(pin => {
+    console.log('pin response:', pin);
+    res.send(pin);
+  })
+  .catch(e => {
+    console.error(e);
+    res.send(e)
+  });
+});
+
+
+router.delete('/:id', (req, res) => {
+  const pinId = req.params.id
+  console.log(pinId);
+  pins.remove(pinId, req.session.user_id).then(pin => {
+    console.log("pin deleted");
+    res.send("Pin deleted");
+  })
+})
 
 module.exports = router;
