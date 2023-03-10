@@ -1,5 +1,12 @@
 const db = require('../connection');
 
+const getAllPins =() => {
+  return db.query(`SELECT * FROM pins;`)
+  .then((res) => {
+    return res.rows;
+  })
+}
+
 const getPinsByMapId = function(mapId) {
   return db.query(`
     SELECT
@@ -35,26 +42,27 @@ const remove = function (id, userId) {
 
 // this function is what inserts the pin form data into the pins database
 // the create function is used in routes/pins-api.js
-const createPin = function (pin, mapId, userId) {
+const createPin = function (pin) {
   console.log(pin.title);
   const queryParams = [
-    mapId,
-    userId,
+    pin.user_id,
     pin.title,
     pin.description,
     pin.img,
     pin.lat,
     pin.lng
-
   ];
 
   const queryString = `
-  INSERT INTO pins (user_id, map_id, title, description, image_url, latitude, longitude)
-    VALUES ($1, $2, $3, $4, $5, $6, $7)
+  INSERT INTO pins (user_id, title, description, image_url, latitude, longitude)
+    VALUES ($1, $2, $3, $4, $5, $6)
     RETURNING *;`;
 
   return db.query(queryString, queryParams)
-    .then((result) => result.rows[0])
+    .then((result) => {
+      console.log("made me a new pin: ", result);
+      return result.rows[0];
+    })
     .catch((err) => {
       console.error(err);
       throw err;
@@ -91,5 +99,5 @@ const updatePin = function (id, pin) {
     });
 }
 
-module.exports = { getPinsByUserId, createPin, remove, updatePin, getPinsByMapId };
+module.exports = { getAllPins, getPinsByUserId, createPin, remove, updatePin, getPinsByMapId };
 

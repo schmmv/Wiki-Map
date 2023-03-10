@@ -89,19 +89,19 @@ router.post('/favourites/:mapid', (req, res) => {
 
 });
 
-router.get('/pins/:mapId', (req, res) => {
+// router.get('/pins/:mapId', (req, res) => {
 
-  pinQueries.getPinsByMapId(req.params.mapId)
-  .then((pins) => {
-    for (const pin of pins) {
-      pin.isMine = (pin.user_id === Number(req.session.user_id));
-      delete pin.user_id;
-    }
-    res.json({ pins });
-  })
-  .catch(err => {
-    res.status(500).json({ error: err.message });
-  });
-})
+//   pinQueries.getPinsByMapId(req.params.mapId)
+//   .then((pins) => {
+//     for (const pin of pins) {
+//       pin.isMine = (pin.user_id === Number(req.session.user_id));
+//       delete pin.user_id;
+//     }
+//     res.json({ pins });
+//   })
+//   .catch(err => {
+//     res.status(500).json({ error: err.message });
+//   });
+// })
 
 module.exports = router;

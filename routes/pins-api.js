@@ -9,11 +9,15 @@ const express = require('express');
 const router  = express.Router();
 const pins = require('../db/queries/pins');
 
-// we might want to add a /mypins route?
-// and we might want to see all the pins in an area
 router.get('/', (req, res) => {
-  pins.getPinsByUserId(req.session.user_id)
+  const userId = req.session.user_id;
+
+  pins.getAllPins()
     .then(pins => {
+      for (const pin of pins) {
+        pin.isMine = (pin.user_id === Number(userId));
+        delete pin.user_id;
+      }
       res.json({ pins });
     })
     .catch(err => {
@@ -22,6 +26,26 @@ router.get('/', (req, res) => {
         .json({ error: err.message });
     });
 });
+
+router.post('/', (req, res) => {
+  const userId = req.session.user_id;
+  let formData = {...req.body};
+  formData.user_id = userId;
+  // formData.isMine = true;
+  console.log('formData from make new pin request:', formData);
+  pins.createPin(formData)
+  .then(pin => {
+    pin.isMine = true;
+    res.send(pin);
+  })
+  .catch(e => {
+    console.error(e);
+    res.send(e)
+  });
+});
+
+
+
 
 //add a pin to a particular map /api/pins/:mapId/add
 router.post('/:mapId/add', (req, res) => {
@@ -46,7 +70,7 @@ router.post('/:mapId/add', (req, res) => {
  * POST for edit and delete pins
  *******************************/
 //edit pin /api/pins/:id
-router.post('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   // capture the pin id
   const pinId = req.params.id
   // capture the queryParams from the req.body
@@ -65,7 +89,7 @@ router.post('/:id', (req, res) => {
 });
 
 //delete pin /api/pins/:Id/delete
-router.post('/:id/delete', (req, res) => {
+router.delete('/:id', (req, res) => {
   const pinId = req.params.id
   console.log(pinId);
   pins.remove(pinId, req.session.user_id).then(pin => {
@@ -77,30 +101,30 @@ router.post('/:id/delete', (req, res) => {
 /**Karilyn's routes
  * for edit/delete pins from root page
  **************************************/
-router.put('/:id', (req, res) => {
-  // capture the pin id
-  const pinId = req.params.id
-  // capture the queryParams from the req.body
-  let formData = {...req.body};
-  pins.update(pinId, formData, req.session.user_id)
-  .then(pin => {
-    console.log('pin response:', pin);
-    res.send(pin);
-  })
-  .catch(e => {
-    console.error(e);
-    res.send(e)
-  });
-});
+// router.put('/:id', (req, res) => {
+//   // capture the pin id
+//   const pinId = req.params.id
+//   // capture the queryParams from the req.body
+//   let formData = {...req.body};
+//   pins.update(pinId, formData, req.session.user_id)
+//   .then(pin => {
+//     console.log('pin response:', pin);
+//     res.send(pin);
+//   })
+//   .catch(e => {
+//     console.error(e);
+//     res.send(e)
+//   });
+// });
 
 
-router.delete('/:id', (req, res) => {
-  const pinId = req.params.id
-  console.log(pinId);
-  pins.remove(pinId, req.session.user_id).then(pin => {
-    console.log("pin deleted");
-    res.send("Pin deleted");
-  })
-})
+// router.delete('/:id', (req, res) => {
+//   const pinId = req.params.id
+//   console.log(pinId);
+//   pins.remove(pinId, req.session.user_id).then(pin => {
+//     console.log("pin deleted");
+//     res.send("Pin deleted");
+//   })
+// })
 
 module.exports = router;
