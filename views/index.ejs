@@ -34,45 +34,47 @@
   <script>
     const mapData = {
       id: Number("<%= map.id %>"),
-      lat: <%= map.lat %>,
-      lng: <%= map.lng %>,
+      lat: <%= map.latitude %>,
+      lng: <%= map.longitude %>,
       zoom: <%= map.zoom %>
     }
   </script>
 </head>
 
 <body>
-
-  <!-- Top nav bar (fixed) -->
-  <nav></nav>
-
 <%- include('partials/_header') %>
   <main>
     <div id="user-landing-page">
     </div>
+    <div class="title">
+    <h2 class="map-name"><%= map.title %></h2>
+  </div>
+  <!-- form -->
+  <div class="pin-info-window" style="display: none">
+    <form id="pindrop-form" method="POST" action="/api/pins">
+      <input type="hidden" name="lat">
+      <input type="hidden" name="lng">
+      <label for="title">Pin title:</label>
+      <textArea id="title" name="title" rows="1" cols="29%" required></textArea><br><br>
+      <label for="description">Pin description:</label>
+      <textArea id="description" name="description" rows="1" cols="23%"></textArea><br><br>
+      <label for="img">Image URL</label>
+      <textArea id="img" name="img" rows="1"></textArea><br><br>
+      <footer>
+        <button id="create_pin_button" type="submit" form="pindrop-form">Create</button>
+        <button id="edit_pin_button" type="submit" form="pindrop-form">Save Changes</button>
+        <button id="delete_pin_button" type="submit" form="pindrop-form">Delete</button>
+        <button id="cancel_pin_button" name="remove-marker" class="remove-marker">Cancel</button>
+      </footer>
+    </form>
+  </div>
+    <!-- map -->
+    <div id="map"></div>
 
-    <!-- map div -->
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box"
+    />
 
 
-    <i class="fa-solid fa-map-pin"></i>
-    <div class="pin-info-window" style="display: none">
-      <form id="pindrop-form" method="POST" action="/api/pins">
-        <input type="hidden" name="lat">
-        <input type="hidden" name="lng">
-        <label for="title">Pin title:</label>
-        <textArea id="title" name="title" rows="1" cols="29%" required></textArea><br><br>
-        <label for="description">Pin description:</label>
-        <textArea id="description" name="description" rows="1" cols="23%"></textArea><br><br>
-        <label for="img">Image URL</label>
-        <textArea id="img" name="img" rows="1"></textArea><br><br>
-        <footer>
-          <button id="create_pin_button" type="submit" form="pindrop-form">Create</button>
-          <button id="edit_pin_button" type="submit" form="pindrop-form">Save Changes</button>
-          <button id="delete_pin_button" type="submit" form="pindrop-form">Delete</button>
-          <button id="cancel_pin_button" name="remove-marker" class="remove-marker">Cancel</button>
-        </footer>
-      </form>
-    </div>
 
     <button class="open-button">Save New Map</button>
     <div class="save-map-form-window" id="save_map" style="display: none">
@@ -90,14 +92,9 @@
     </div>
 
 
-    <h2 class="map-name"><%= map.title %></h2>
-    <input id="pac-input" class="controls" type="text" placeholder="Search Box"
-    />
-    <div id="map"></div>
 
-    <div id="mapView"></div>
 
-    <footer></footer>
+
 
   </main>
 </body>
