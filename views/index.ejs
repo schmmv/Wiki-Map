@@ -12,9 +12,11 @@
   <!-- App CSS -->
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="/vendor/border-box.css" />
-  <link rel="stylesheet" href="/styles/main.css" />
+  <!-- <link rel="stylesheet" href="/styles/main.css" /> -->
   <link rel="stylesheet" href="/styles/layout.css" />
   <link rel="stylesheet" href="/styles/header.css" />
+  <link rel="stylesheet" href="/styles/editPinForm.css" />
+
 
 
   <!-- Icons and Buttons -->
@@ -23,18 +25,17 @@
   <!-- External JS -->
   <script src="/vendor/jquery-3.0.0.js"></script>
   <script async
-  src="https://maps.googleapis.com/maps/api/js?v=beta&key=<%=key%>&libraries=places,marker&callback=initMap">
+  src="https://maps.googleapis.com/maps/api/js?v=beta&key=<%=key%>&libraries=places,marker&callback=initMapView">
   </script>
 
   <!-- App JS -->
-  <script defer src="/scripts/map.js"></script>
-  <!-- <script defer src="/scripts/app.js"></script> -->
+  <script defer src="/scripts/app.js"></script>
 
   <script>
     const mapData = {
-      id: <%= map.id %>,
-      lat: <%= map.latitude %>,
-      lng: <%= map.longitude %>,
+      id: Number("<%= map.id %>"),
+      lat: <%= map.lat %>,
+      lng: <%= map.lng %>,
       zoom: <%= map.zoom %>
     }
   </script>
@@ -51,9 +52,7 @@
     </div>
 
     <!-- map div -->
-    <input id="pac-input" class="controls" type="text" placeholder="Search Box"
-    />
-    <div id="map"></div>
+
 
     <i class="fa-solid fa-map-pin"></i>
     <div class="pin-info-window" style="display: none">
@@ -64,6 +63,8 @@
         <textArea id="title" name="title" rows="1" cols="29%" required></textArea><br><br>
         <label for="description">Pin description:</label>
         <textArea id="description" name="description" rows="1" cols="23%"></textArea><br><br>
+        <label for="img">Image URL</label>
+        <textArea id="img" name="img" rows="1"></textArea><br><br>
         <footer>
           <button id="create_pin_button" type="submit" form="pindrop-form">Create</button>
           <button id="edit_pin_button" type="submit" form="pindrop-form">Save Changes</button>
@@ -90,6 +91,9 @@
 
 
     <h2 class="map-name"><%= map.title %></h2>
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box"
+    />
+    <div id="map"></div>
 
     <div id="mapView"></div>
 
