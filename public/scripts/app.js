@@ -34,9 +34,9 @@ function addPinToMap(pin) {
 
       const $form = $('#pindrop-form');
       const $formWindow = $('.pin-info-window');
-      $form.find('textArea[name="title"]').val(pin.title);
-      $form.find('textArea[name="description"]').val(pin.description);
-      $form.find('textArea[name="img"]').val(pin.image_url);
+      $form.find('input[name="title"]').val(pin.title);
+      $form.find('input[name="description"]').val(pin.description);
+      $form.find('input[name="img"]').val(pin.image_url);
       $form.find('input[name="lat"]').val(pin.latitude);
       $form.find('input[name="lng"]').val(pin.longitude);
       $formWindow.show();
@@ -207,9 +207,9 @@ function initMapView() {
     orphanMarker = pin;
 
     // set the value of the inputs in the pin form
-    $form.find('textArea[name="title"]').val("");
-    $form.find('textArea[name="description"]').val("");
-    $form.find('textArea[name="img"]').val("");
+    $form.find('input[name="title"]').val("");
+    $form.find('input[name="description"]').val("");
+    $form.find('input[name="img"]').val("");
     //add the lat and long from Google but keep it hidden
     $form.find('input[name="lat"]').val(e.latLng.lat);
     $form.find('input[name="lng"]').val(e.latLng.lng);
