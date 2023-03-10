@@ -152,7 +152,6 @@ function initMap() {
         $formWindow.hide();
         // because the pin gets data it stays on the map
         orphanMarker = null;
-        console.log(data);
       });
       e.preventDefault();
     });
@@ -176,7 +175,6 @@ function initMap() {
       });
       // when a user clicks on their own pin, pop up the pin form
       marker.addListener("click", () => {
-        console.log('here');
         // show the pin form and set the values for the pin form
         $("#create_pin_button").hide();
         $("#edit_pin_button").show();
@@ -213,7 +211,6 @@ function initMap() {
         });
 
         $("#edit_pin_button").click((e) => {
-          console.log($form.serialize());
           $.ajax("/api/pins/" + pin.id, {
             type: "PUT",
             // collect the serialized data from the form
@@ -221,7 +218,6 @@ function initMap() {
             dataType: "json",
             encode: true,
             success: (data) => {
-              console.log('edited');
               $formWindow.hide();
             }
           });
@@ -229,7 +225,6 @@ function initMap() {
         })
       });
     });
-    console.log(data);
   });
 
   //* Save a map
@@ -242,10 +237,6 @@ function initMap() {
   // set the value of the inputs in the pin form
     $mapForm.find('input[name="title"]').val("");
     $mapForm.find('input[name="category"]').val("");
-    //add the lat and long from Google but keep it hidden
-    // $mapForm.find('input[name="lat"]').val(latLng.lat).toSpan();
-    // $mapForm.find('input[name="lng"]').val(latLng.lng).
-    // $mapForm.find('input[name="zoom]').val(8);
     $mapForm.find("#save-map-btn").show();
     $mapWindow.show();
     // remove the popup if the user clicks cancel
@@ -272,14 +263,13 @@ function initMap() {
         dataType: "json",
         encode: true
       }).done(function (data) {
-        // $mapWindow.hide();
+        $mapWindow.hide();
       });
       e.preventDefault();
     });
 
     $mapForm.show();
   });
-
 
 
 

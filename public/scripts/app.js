@@ -1,26 +1,199 @@
 
 //called from the one_map.ejs view template
 // Initialize and add the map
-let map;
+let map, infoWindow;
+
+function addPinToMap(pin) {
+  console.log(pin);
+  const contentString = `<div id="info-window-content"><img width="100" src="${pin.image_url}"><h4>${pin.title}</h4><p>${pin.description}</p></div>`;
+  const marker = new google.maps.Marker({
+    position: { lat: pin.latitude, lng: pin.longitude },
+    map: map,
+    title: pin.title,
+    draggable: true,
+    //* what does this mean?
+    optimized: false,
+  })
+  //when pin is clicked:
+  marker.addListener("click", () => {
+    //pop up info window
+    infoWindow.close();
+    infoWindow.setContent(contentString);
+    infoWindow.open(marker.getMap(),marker);
+
+    //if pin belongs to me, pop up edit/delete form
+    if (pin.isMine){
+      $("#create_pin_button").hide();
+      $("#edit_pin_button").show();
+      $("#delete_pin_button").show();
+      const $form = $('#pindrop-form');
+      const $formWindow = $('.pin-info-window');
+      $form.find('textArea[name="title"]').val(pin.title);
+      $form.find('textArea[name="description"]').val(pin.description);
+      $form.find('textArea[name="img"]').val(pin.image_url);
+      $form.find('input[name="lat"]').val(pin.latitude);
+      $form.find('input[name="lng"]').val(pin.longitude);
+      $formWindow.show();
+
+      //if I save changes, edit pin in database
+      $("#edit_pin_button").click((e) => {
+        e.preventDefault();
+        $.ajax({
+          type: "PUT",
+          url: `/api/pins/${pin.id}`,
+          // collect the serialized data from the form
+          data: $form.serialize(),
+          dataType: "json",
+        })
+        .done((response) => {
+            console.log('edited', response);
+            $formWindow.hide();
+          //* again, probably not needed I guess?
+            // window.location.reload();
+          })
+        })
+
+       //if I hit delete, delete pin from database
+       $("#delete_pin_button").click((e) => {
+        e.preventDefault();
+        $.ajax({
+          url: `/api/pins/${pin.id}`,
+          type: "DELETE",})
+          .done((data) => {
+            console.log('deleted');
+            $formWindow.hide();
+            // remove marker from map
+            marker.setMap(null);
+          })
+      });
+
+      //if I hit Cancel, hide form
+      $form.find('.remove-marker').click((e) => {
+        //cancel, aka hide it
+        $formWindow.hide();
+        e.preventDefault();
+      });
+    }
+  })
+}
+
 function initMapView() {
 
-    //use mapData passed to ejs one_map template
-    const center = { lat: mapData.lat, lng: mapData.lng };
-    map = new google.maps.Map(document.getElementById("map"), {
-      zoom: mapData.zoom,
-      center
+  //use mapData passed to ejs one_map template
+  const center = { lat: mapData.lat, lng: mapData.lng };
+  map = new google.maps.Map(document.getElementById("map"), {
+    zoom: mapData.zoom,
+    center
+  });
+//**new stuff */
+
+  //* Google maps Places Search
+  // Create the search box and link it to the UI element.
+  const input = document.getElementById("pac-input");
+  const searchBox = new google.maps.places.SearchBox(input);
+
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(input);
+  // Bias the SearchBox results towards current map's viewport.
+  map.addListener("bounds_changed", () => {
+    searchBox.setBounds(map.getBounds());
+  });
+
+  let markers = [];
+
+  // Listen for the event fired when the user selects a prediction and retrieve more details for that place.
+  searchBox.addListener("places_changed", () => {
+    const places = searchBox.getPlaces();
+
+    if (places.length == 0) {
+      return;
+    }
+    // Clear out the old markers.
+    markers.forEach((marker) => {
+      marker.setMap(null);
     });
-    const infoWindow = new google.maps.InfoWindow();
+    markers = [];
+
+    // For each place, get the icon, name and location.
+    const bounds = new google.maps.LatLngBounds();
+
+    places.forEach((place) => {
+      if (!place.geometry || !place.geometry.location) {
+        console.log("Returned place contains no geometry");
+        return;
+      }
+
+      const icon = {
+        url: place.icon,
+        size: new google.maps.Size(71, 71),
+        origin: new google.maps.Point(0, 0),
+        anchor: new google.maps.Point(17, 34),
+        scaledSize: new google.maps.Size(25, 25),
+      };
+
+      // Create a marker for each place.
+      markers.push(
+        new google.maps.Marker({
+          map,
+          icon,
+          title: place.name,
+          position: place.geometry.location,
+        })
+      );
+      if (place.geometry.viewport) {
+        // Only geocodes have viewport.
+        bounds.union(place.geometry.viewport);
+      } else {
+        bounds.extend(place.geometry.location);
+      }
+    });
+    map.fitBounds(bounds);
+  });
+
+
+
+  //* Google maps geolocation functionality
+  let infoWindow2 = new google.maps.InfoWindow();
+  // create Show Current Location button to geolocate users
+  const locationButton = document.createElement("button");
+  locationButton.textContent = "Pan to Current Location";
+  locationButton.classList.add("custom-map-control-button");
+  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+  locationButton.addEventListener("click", () => {
+    // Try HTML5 geolocation.
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const pos = {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude,
+          };
+          map.setCenter(pos);
+        },
+        () => {
+          handleLocationError(true, infoWindow2, map.getCenter());
+        }
+      );
+    } else {
+      // Browser doesn't support Geolocation
+      handleLocationError(false, infoWindow2, map.getCenter());
+    }
+  });
+
+//**end of new stuff */
+    infoWindow = new google.maps.InfoWindow();
     const $formWindow = $('.pin-info-window');
     const $form = $('#pindrop-form');
+    let orphanMarker;
 
     //allow users to add new pin by clicking on map
     map.addListener('click', (e) => {
       pin = new google.maps.Marker({
         position: e.latLng, // map coordinates where user clicked
         map: map,
-
+        draggable: true
       });
+      // this will remove a pin from the map if it doesn't get info added
+      orphanMarker = pin;
 
       // set the value of the inputs in the pin form
       $form.find('textArea[name="title"]').val("");
@@ -45,24 +218,30 @@ function initMapView() {
       // function will get executed on click of submit button
       $("#create_pin_button").click((e) => {
         e.preventDefault();
+        const url = $form.attr('action');
         // ajax POST request to /api/pins
         $.post({
-          url: `/api/pins/${mapData.id}/add`,
+          url: url,
           data: $form.serialize(),
           dataType: "json",
-
-        }).done(function (data) {
+          encode: true,
+        }).done(function (newPin) {
           $formWindow.hide();
-          window.location.reload();
+          // because the pin gets data it stays on the map
+          orphanMarker = null;
+          // window.location.reload();
+          addPinToMap(newPin);
         });
 
       });
+      $form.show();
     });
 
     //get pins to display on map
     $.ajax({
       method: 'GET',
-      url: `/api/pins/${mapData.id}`
+      //* do we even need the map_id?
+      url: `/api/pins`
     })
     .done((response) => {
 
@@ -73,81 +252,23 @@ function initMapView() {
       //3- add listener for marker
       ///3.1 - if clicked, open info window, and if it belongs to the logged in user pop up edit form
       for (const pin of pins) {
-        const contentString = `<div id="info-window-content"><img width="100" src="${pin.image_url}"><h4>${pin.title}</h4><p>${pin.description}</p></div>`;
-        const marker = new google.maps.Marker({
-          position: { lat: pin.latitude, lng: pin.longitude },
-          map: map,
-          title: pin.title,
-          // draggable: true,
-          optimized: false,
-        })
-        //when pin it clicked:
-        marker.addListener("click", () => {
-          //pop up info window
-          infoWindow.close();
-          infoWindow.setContent(contentString);
-          infoWindow.open(marker.getMap(),marker);
-
-          //if pin belongs to me, pop up edit/delete form
-          if (pin.isMine){
-            $("#create_pin_button").hide();
-            $("#edit_pin_button").show();
-            $("#delete_pin_button").show();
-            $form.find('textArea[name="title"]').val(pin.title);
-            $form.find('textArea[name="description"]').val(pin.description);
-            $form.find('textArea[name="img"]').val(pin.image_url);
-
-            $form.find('input[name="lat"]').val(pin.latitude);
-            $form.find('input[name="lng"]').val(pin.longitude);
-            $formWindow.show();
-
-            //if I save changes, edit pin in database
-            $("#edit_pin_button").click((e) => {
-              e.preventDefault();
-              $.ajax({
-                method: "POST",
-                url: `/api/pins/${pin.id}`,
-                // collect the serialized data from the form
-                data: $form.serialize(),
-                dataType: "json",
-              })
-              .done((response) => {
-                  console.log('edited', response);
-                  $formWindow.hide();
-                  window.location.reload();
-                })
-              })
-
-             //if I hit delete, delete pin from database
-             $("#delete_pin_button").click((e) => {
-              e.preventDefault();
-              $.ajax({
-                url: `/api/pins/${pin.id}/delete`,
-                method: "POST",})
-                .done((data) => {
-                  console.log('deleted');
-                  $formWindow.hide();
-                  // remove marker from map
-                  marker.setMap(null);
-                })
-            });
-
-            //if I hit Cancel, hide form
-            $form.find('.remove-marker').click((e) => {
-              //cancel, aka hide it
-              $formWindow.hide();
-              e.preventDefault();
-            });
-          }
-        })
-
-
-
+        addPinToMap(pin);
       }
     })
 
 
   }
+// new stuff
+  //* Geolocation function
+function handleLocationError(browserHasGeolocation, infoWindow2, pos) {
+  infoWindow2.setPosition(pos);
+  infoWindow2.setContent(
+    browserHasGeolocation
+      ? "Error: The Geolocation service failed."
+      : "Error: Your browser doesn't support geolocation."
+  );
+  infoWindow2.open(map);
+}
 
 window.initMapView = initMapView;
 
