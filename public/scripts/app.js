@@ -42,6 +42,7 @@ function addPinToMap(pin) {
       $formWindow.show();
 
       //if I save changes, edit pin in database
+      $("#edit_pin_button").off('click');
       $("#edit_pin_button").click((e) => {
         e.preventDefault();
         $.ajax({
@@ -54,11 +55,15 @@ function addPinToMap(pin) {
         .done((response) => {
             console.log('edited', response);
             $formWindow.hide();
+            infoWindow.hide();
+
             // window.location.reload();
           })
+
         });
 
-        //if I hit delete, delete pin from database
+      //if I hit delete, delete pin from database
+      $("#delete_pin_button").off('click');
       $("#delete_pin_button").click((e) => {
         e.preventDefault();
         $.ajax({
@@ -76,6 +81,7 @@ function addPinToMap(pin) {
       $form.find('.remove-marker').click((e) => {
         //cancel, aka hide it
         $formWindow.hide();
+        infoWindow.close();
         e.preventDefault();
       });
     }
@@ -227,6 +233,7 @@ function initMapView() {
     });
 
     // function will get executed on click of submit button
+    $("#create_pin_button").off('click');
     $("#create_pin_button").click((e) => {
       e.preventDefault();
       const url = $form.attr('action');
@@ -283,6 +290,8 @@ function initMapView() {
       e.preventDefault();
       //cancel, aka hide the form
       $mapWindow.hide();
+      // but pop the Save Map button again
+      $(".open-button").show();
     });
 
     // function will get executed on click of submit button
