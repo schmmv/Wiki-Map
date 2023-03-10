@@ -35,9 +35,9 @@
             <div class="card-text">
               <div class="text-and-btn">
               <h3 class="card-title"><%= pin.title %></h3>
-              <form action="/maps/<%= pin.map_id %>">
+              <a href="/?loc=<%= pin.latitude %>,<%= pin.longitude %>">
                 <button type="submit">View</button>
-              </form>
+              </a>
             </div>
               <p class="card-desc"><%= pin.description %></p>
             </div>
