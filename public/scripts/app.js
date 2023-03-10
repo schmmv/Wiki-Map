@@ -1,7 +1,7 @@
 
 //called from the one_map.ejs view template
 // Initialize and add the map
-let map, infoWindow;
+let map, infoWindow, orphanMarker;
 
 function addPinToMap(pin) {
   console.log(pin);
@@ -26,6 +26,10 @@ function addPinToMap(pin) {
       $("#create_pin_button").hide();
       $("#edit_pin_button").show();
       $("#delete_pin_button").show();
+      if (orphanMarker){
+        orphanMarker.setMap(null);
+      }
+
       const $form = $('#pindrop-form');
       const $formWindow = $('.pin-info-window');
       $form.find('textArea[name="title"]').val(pin.title);
@@ -48,13 +52,12 @@ function addPinToMap(pin) {
         .done((response) => {
             console.log('edited', response);
             $formWindow.hide();
-          //* again, probably not needed I guess?
             // window.location.reload();
           })
-        })
+        });
 
-       //if I hit delete, delete pin from database
-       $("#delete_pin_button").click((e) => {
+        //if I hit delete, delete pin from database
+      $("#delete_pin_button").click((e) => {
         e.preventDefault();
         $.ajax({
           url: `/api/pins/${pin.id}`,
@@ -65,9 +68,9 @@ function addPinToMap(pin) {
             // remove marker from map
             marker.setMap(null);
           })
-      });
+        });
 
-      //if I hit Cancel, hide form
+        //if I hit Cancel, hide form
       $form.find('.remove-marker').click((e) => {
         //cancel, aka hide it
         $formWindow.hide();
@@ -85,7 +88,8 @@ function initMapView() {
     zoom: mapData.zoom,
     center
   });
-//**new stuff */
+
+  //**new stuff */
 
   //* Google maps Places Search
   // Create the search box and link it to the UI element.
@@ -157,7 +161,7 @@ function initMapView() {
   const locationButton = document.createElement("button");
   locationButton.textContent = "Pan to Current Location";
   locationButton.classList.add("custom-map-control-button");
-  map.controls[google.maps.ControlPosition.TOP_CENTER].push(locationButton);
+  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(locationButton);
   locationButton.addEventListener("click", () => {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
@@ -180,84 +184,126 @@ function initMapView() {
   });
 
 //**end of new stuff */
-    infoWindow = new google.maps.InfoWindow();
-    const $formWindow = $('.pin-info-window');
-    const $form = $('#pindrop-form');
-    let orphanMarker;
+  infoWindow = new google.maps.InfoWindow();
+  const $formWindow = $('.pin-info-window');
+  const $form = $('#pindrop-form');
+  let orphanMarker;
 
-    //allow users to add new pin by clicking on map
-    map.addListener('click', (e) => {
-      pin = new google.maps.Marker({
-        position: e.latLng, // map coordinates where user clicked
-        map: map,
-        draggable: true
-      });
-      // this will remove a pin from the map if it doesn't get info added
-      orphanMarker = pin;
+  //allow users to add new pin by clicking on map
+  map.addListener('click', (e) => {
+    pin = new google.maps.Marker({
+      position: e.latLng, // map coordinates where user clicked
+      map: map,
+      draggable: true
+    });
+    // this will remove a pin from the map if it doesn't get info added
+    orphanMarker = pin;
 
-      // set the value of the inputs in the pin form
-      $form.find('textArea[name="title"]').val("");
-      $form.find('textArea[name="description"]').val("");
-      $form.find('textArea[name="img"]').val("");
-      //add the lat and long from Google but keep it hidden
-      $form.find('input[name="lat"]').val(e.latLng.lat);
-      $form.find('input[name="lng"]').val(e.latLng.lng);
-      $form.find("#create_pin_button").show();
-      $formWindow.show();
-      // hide edit and delete buttons when adding a new pin
-      $("#edit_pin_button").hide();
-      $("#delete_pin_button").hide();
-      // remove the pin if the user clicks cancel
-      $form.find('.remove-marker').click((e) => {
-        e.preventDefault();
-        //cancel, aka hide the form
-        $formWindow.hide();
-        pin.setMap(null);
-      });
-
-      // function will get executed on click of submit button
-      $("#create_pin_button").click((e) => {
-        e.preventDefault();
-        const url = $form.attr('action');
-        // ajax POST request to /api/pins
-        $.post({
-          url: url,
-          data: $form.serialize(),
-          dataType: "json",
-          encode: true,
-        }).done(function (newPin) {
-          $formWindow.hide();
-          // because the pin gets data it stays on the map
-          orphanMarker = null;
-          // window.location.reload();
-          addPinToMap(newPin);
-        });
-
-      });
-      $form.show();
+    // set the value of the inputs in the pin form
+    $form.find('textArea[name="title"]').val("");
+    $form.find('textArea[name="description"]').val("");
+    $form.find('textArea[name="img"]').val("");
+    //add the lat and long from Google but keep it hidden
+    $form.find('input[name="lat"]').val(e.latLng.lat);
+    $form.find('input[name="lng"]').val(e.latLng.lng);
+    $form.find("#create_pin_button").show();
+    $formWindow.show();
+    // hide edit and delete buttons when adding a new pin
+    $("#edit_pin_button").hide();
+    $("#delete_pin_button").hide();
+    // remove the pin if the user clicks cancel
+    $form.find('.remove-marker').click((e) => {
+      e.preventDefault();
+      //cancel, aka hide the form
+      $formWindow.hide();
+      pin.setMap(null);
     });
 
+    // function will get executed on click of submit button
+    $("#create_pin_button").click((e) => {
+      e.preventDefault();
+      const url = $form.attr('action');
+      // ajax POST request to /api/pins
+      $.post({
+        url: url,
+        data: $form.serialize(),
+        dataType: "json",
+        encode: true,
+      }).done(function (newPin) {
+        $formWindow.hide();
+        // because the pin gets data it stays on the map
+        orphanMarker = null;
+        // window.location.reload();
+        addPinToMap(newPin);
+      });
+
+    });
+    $form.show();
+  });
+
     //get pins to display on map
-    $.ajax({
-      method: 'GET',
-      //* do we even need the map_id?
-      url: `/api/pins`
-    })
-    .done((response) => {
+  $.ajax({
+    method: 'GET',
+    //* do we even need the map_id?
+    url: `/api/pins`
+  })
+  .done((response) => {
 
-      const pins = response.pins;
-      //for each pin:
-      //1- set the content of the info window
-      //2- create the marker on the map
-      //3- add listener for marker
-      ///3.1 - if clicked, open info window, and if it belongs to the logged in user pop up edit form
-      for (const pin of pins) {
-        addPinToMap(pin);
-      }
-    })
+    const pins = response.pins;
+    //for each pin:
+    //1- set the content of the info window
+    //2- create the marker on the map
+    //3- add listener for marker
+    ///3.1 - if clicked, open info window, and if it belongs to the logged in user pop up edit form
+    for (const pin of pins) {
+      addPinToMap(pin);
+    }
+  })
+
+  //* Save a map
+  const $mapWindow = $(".save-map-form-window");
+  const $mapForm = $('.map-form-container');
+  $(".open-button").click((e) => {
+
+    $(".open-button").hide();
+    // set the value of the inputs in the pin form
+    $mapForm.find('input[name="title"]').val("");
+    $mapForm.find('input[name="category"]').val("");
+    $mapForm.find("#save-map-btn").show();
+    $mapWindow.show();
+    // remove the popup if the user clicks cancel
+    $mapForm.find('.btn-cancel').click((e) => {
+      e.preventDefault();
+      //cancel, aka hide the form
+      $mapWindow.hide();
+    });
+
+    // function will get executed on click of submit button
+    $("#save-map-btn").click((e) => {
+      const center = map.getCenter();
+      $mapForm.find('input[name=lat]').val(center.lat());
+      $mapForm.find('input[name=lng]').val(center.lng());
+      $mapForm.find('input[name=zoom]').val(map.getZoom())
+
+      const url = $mapForm.attr('action');
+      // ajax POST request to /api/maps
+
+      $.post({
+        url: url,
+        data: $mapForm.serialize(),
+        dataType: "json",
+        encode: true
+      }).done(function (data) {
+        $mapWindow.hide();
+      });
+      e.preventDefault();
+    });
+
+    $mapForm.show();
+  });
+};
 
 
-  }
 // new stuff
   //* Geolocation function
 function handleLocationError(browserHasGeolocation, infoWindow2, pos) {
