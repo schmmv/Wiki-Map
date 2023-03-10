@@ -90,7 +90,7 @@ function addPinToMap(pin) {
       $form.find('.remove-marker').click((e) => {
         //cancel, aka hide it
         $formWindow.hide();
-        infoWindow.close();
+        // infoWindow.close();
         e.preventDefault();
       });
     }
