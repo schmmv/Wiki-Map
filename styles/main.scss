@@ -34,14 +34,14 @@ main {
 .pac-card {
   background-color: #fff;
   border: 0;
-  border-radius: 3px;
-  box-shadow: 0 1px 4px -1px rgba(0, 0, 0, 0.3);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(60,64,67,0.3),0 1px 3px 1px rgba(60,64,67,0.15);
   margin: 10px;
   padding: 0 0.5em;
-  font: 400 18px Roboto, Arial, sans-serif;
+  font: 400 22px Roboto, Arial, sans-serif;
   overflow: hidden;
-  font-family: Roboto;
-  padding: 0;
+  font-family: Roboto, Arial, sans-serif;
+  padding: 2px;
 }
 
 #pac-container {
@@ -63,12 +63,12 @@ main {
 #pac-input {
   background-color: #fff;
   font-family: Roboto, Arial, sans-serif;
-  font-size: 15px;
+  font-size: 22px;
   font-weight: 300;
   margin-left: 12px;
   padding: 0 11px 0 13px;
   text-overflow: ellipsis;
-  width: 200px;
+  width: 10em;
 }
 
 #pac-input:focus {
@@ -76,37 +76,37 @@ main {
 }
 
 
-.pin-info-window {
-  max-width: auto;
-  max-height: auto;
-  padding: 0.5em;
-  position: fixed;
-  opacity: 1;
-  z-index: 99;
-  display: flex;
-  top: 50%;
-  left: 25%;
-  transform: translate(-50%,-50%);
-  flex-wrap: wrap;
-  flex-direction: row;
-  align-items: center;
-  background: white;
-  border: none;
-  border-radius:8px;
-  box-shadow: 0 1px 2px rgba(60,64,67,0.3),0 1px 3px 1px rgba(60,64,67,0.15);
-  font-family: Roboto, Arial, sans-serif;
-}
+// .pin-info-window {
+//   max-width: auto;
+//   max-height: auto;
+//   padding: 0.5em;
+//   position: fixed;
+//   opacity: 1;
+//   z-index: 99;
+//   display: flex;
+//   top: 50%;
+//   left: 25%;
+//   transform: translate(-50%,-50%);
+//   flex-wrap: wrap;
+//   flex-direction: row;
+//   align-items: center;
+//   background: white;
+//   border: none;
+//   border-radius:8px;
+//   box-shadow: 0 1px 2px rgba(60,64,67,0.3),0 1px 3px 1px rgba(60,64,67,0.15);
+//   font-family: Roboto, Arial, sans-serif;
+// }
 
-form > footer {
-  display: flex;
-  border-radius: 3px;
-  align-items: flex-start;
-}
+// form > footer {
+//   display: flex;
+//   border-radius: 3px;
+//   align-items: flex-start;
+// }
 
-footer > button {
-  border-radius: 3px;
-  margin: 3px;
-}
+// footer > button {
+//   border-radius: 3px;
+//   margin: 3px;
+// }
 
 .custom-map-control-button {
   background-color: #fff;
@@ -136,18 +136,22 @@ body {
 
 // save map button and form
 .open-button {
+  display: block;
   background-color: #8d8c8c;
   color: black;
   padding: 16px 20px;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
   opacity: 0.9;
   position: fixed;
-  top: 15%;
-  right: 2em;
+  bottom: 5%;
+  right: 1em;
   width: 10em;
   font-family: Roboto, Arial, sans-serif;
-  font-size: 18px;
+  font-size: 22px;
+  z-index: 99;
+  margin:auto
 }
 
 /* The popup form - hidden by default */
@@ -155,10 +159,10 @@ body {
   display: block;
   position: fixed;
   background-color: #fff;
-  top: 10%;
+  bottom: 5%;
   right: 2em;
   border: 3px solid #f1f1f1;
-  z-index: 9;
+  z-index: 99;
   border-radius:8px;
   box-shadow: 0 1px 2px rgba(60,64,67,0.3),0 1px 3px 1px rgba(60,64,67,0.15);
   font-family: Roboto, Arial, sans-serif;
