@@ -2,13 +2,18 @@
 
 body {
   padding-top: 80px;
-  background-color: $green;
+  background-color: $lightest-blue;
   font-family: $font-family;
 }
+  h1 {
+    text-align: center;
+    margin-top: 20px;
+  }
 
 main {
   display: flex;
   justify-content: center;
+  background-color: $lightest-blue;
 }
   .cards-container {
     display: flex;

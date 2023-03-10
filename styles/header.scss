@@ -7,8 +7,8 @@ nav {
   font-size: 24px;
   height: 60px;
   width: 100%;
-  background-color: #183619;
-  background-image: url("https://www.transparenttextures.com/patterns/az-subtle.png");
+  background-color: #214B7A;
+  background-image: url("https://www.transparenttextures.com/patterns/arches.png");
   color: $light-grey;
   padding: {
     left: 0.5em;
@@ -23,14 +23,14 @@ nav {
   .navbar-brand {
     text-decoration: none;
     color: inherit;
-    padding: 0.5em;
+    padding: 0.2em;
 
   }
 
   .home-btn {
     margin-right: 0.5em;
-    margin-bottom: 0.2em;
-    padding: 0.5em;
+    margin-bottom: 0.5em;
+    padding: 0.2em;
     cursor: pointer;
   }
 

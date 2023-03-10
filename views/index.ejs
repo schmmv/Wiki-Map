@@ -18,7 +18,6 @@
   <link rel="stylesheet" href="/styles/editPinForm.css" />
 
 
-
   <!-- Icons and Buttons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
@@ -52,15 +51,18 @@
 </head>
 
 <body>
-<%- include('partials/_header') %>
-  <main>
-    <div id="user-landing-page">
-    </div>
-
-
+  <nav>
+    <%- include('partials/_header') %>
     <div class="title">
       <h2 class="map-name"><%= map.title %></h2>
     </div>
+  </nav>
+
+  <main class="container">
+    <section>
+      <div id="user-landing-page" style="display: none">
+      </div>
+    </section>
 
     <div class="pin-info-window" style="display: none">
       <form id="pindrop-form" method="POST" action="/api/pins" class="pin-info-container">
@@ -80,11 +82,11 @@
         </footer>
       </form>
     </div>
-     <!-- map -->
-     <div id="map"></div>
+    <!-- map -->
+    <input id="pac-input" class="controls" type="text" placeholder="Search Box" style="position: absolute; right: 10px; top: 10px;" autocomplete="on">
 
-     <input id="pac-input" class="controls" type="text" placeholder="Search Box"
-     />
+    <div id="map">
+    </div>
 
     <button class="open-button">Save New Map</button>
     <div class="save-map-form-window" id="save_map" style="display: none">
@@ -100,11 +102,6 @@
         <button type="button" name="remove-map" class="btn-cancel"><b>Cancel</b></button>
       </form>
     </div>
-
-
-
-
-
 
   </main>
 </body>
