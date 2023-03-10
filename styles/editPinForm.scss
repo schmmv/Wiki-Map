@@ -7,6 +7,31 @@
 }
 body {
 
-  font-family: $font-family;
+font-family: $font-family;
  background-color: $green;
+}
+
+.pin-info-window {
+  padding: 0.5em;
+}
+
+.pin-info-container input[type=text] {
+  width: 40%;
+  padding: .5em;
+  margin: 5px 0 15px 0;
+  border: 1px black;
+  background: #f4f3f3;
+}
+
+/* When the inputs get focus, do something */
+.pin-info-container input[type=text]:focus {
+  background-color: #ddd;
+  outline: none;
+  border: 1px black;
+}
+
+.pin-info-container > footer > button {
+  border-radius: 3px;
+  margin: 3px;
+  padding: 10px 10px;
 }
