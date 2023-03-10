@@ -12,7 +12,7 @@
   <!-- App CSS -->
   <link rel="stylesheet" href="/vendor/normalize-4.1.1.css" />
   <link rel="stylesheet" href="/vendor/border-box.css" />
-  <!-- <link rel="stylesheet" href="/styles/main.css" /> -->
+  <link rel="stylesheet" href="/styles/main.css" />
   <link rel="stylesheet" href="/styles/layout.css" />
   <link rel="stylesheet" href="/styles/header.css" />
   <link rel="stylesheet" href="/styles/editPinForm.css" />
@@ -54,17 +54,16 @@
     <!-- map div -->
 
 
-    <i class="fa-solid fa-map-pin"></i>
     <div class="pin-info-window" style="display: none">
-      <form id="pindrop-form" method="POST" action="/api/pins">
+      <form id="pindrop-form" method="POST" action="/api/pins" class="pin-info-container">
         <input type="hidden" name="lat">
         <input type="hidden" name="lng">
-        <label for="title">Pin title:</label>
-        <textArea id="title" name="title" rows="1" cols="29%" required></textArea><br><br>
-        <label for="description">Pin description:</label>
-        <textArea id="description" name="description" rows="1" cols="23%"></textArea><br><br>
+        <label for="title">Pin title</label>
+        <input type="text" name="title" required></input><br>
+        <label for="description">Pin description</label>
+        <input type="text" name="description"></input><br>
         <label for="img">Image URL</label>
-        <textArea id="img" name="img" rows="1"></textArea><br><br>
+        <input type="text" name="img"></input><br>
         <footer>
           <button id="create_pin_button" type="submit" form="pindrop-form">Create</button>
           <button id="edit_pin_button" type="submit" form="pindrop-form">Save Changes</button>
