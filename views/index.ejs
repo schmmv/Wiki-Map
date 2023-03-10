@@ -32,11 +32,21 @@
   <script defer src="/scripts/app.js"></script>
 
   <script>
+
     const mapData = {
       id: Number("<%= map.id %>"),
       lat: <%= map.latitude %>,
       lng: <%= map.longitude %>,
       zoom: <%= map.zoom %>
+    }
+
+    // Grab the latlng out of the querystring if it's there
+    let params = new URLSearchParams(document.location.search);
+    let latlng = params.get("loc");
+    if (latlng) {
+      latlng = latlng.split(',');
+      mapData.lat = Number(latlng[0]);
+      mapData.lng = Number(latlng[1]);
     }
   </script>
 </head>
