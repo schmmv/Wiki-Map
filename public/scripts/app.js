@@ -18,14 +18,16 @@ function addPinToMap(pin) {
   marker.pinData = pin;
 
   //when pin is clicked:
-  marker.addListener("click", () => {
+  marker.addListener("click", (e) => {
     //pop up info window
     infoWindow.close();
-    console.log("this when marker is clicked:", this);
+    let m = marker;
+    console.log("this when marker is clicked:", m);
+
     const contentString = `<div id="info-window-content">
-      <img width="100" src="${this.pinData.image_url}">
-      <h4>${this.pinData.title}</h4>
-      <p>${this.pinData.description}</p>
+      <img width="100" src="${m.pinData.image_url}">
+      <h4>${m.pinData.title}</h4>
+      <p>${m.pinData.description}</p>
     </div>`;
     infoWindow.setContent(contentString);
     infoWindow.open(marker.getMap(),marker);
@@ -41,11 +43,11 @@ function addPinToMap(pin) {
 
       const $form = $('#pindrop-form');
       const $formWindow = $('.pin-info-window');
-      $form.find('input[name="title"]').val(pin.title);
-      $form.find('input[name="description"]').val(pin.description);
-      $form.find('input[name="img"]').val(pin.image_url);
-      $form.find('input[name="lat"]').val(pin.latitude);
-      $form.find('input[name="lng"]').val(pin.longitude);
+      $form.find('input[name="title"]').val(m.pinData.title);
+      $form.find('input[name="description"]').val(m.pinData.description);
+      $form.find('input[name="img"]').val(m.pinData.image_url);
+      $form.find('input[name="lat"]').val(m.pinData.latitude);
+      $form.find('input[name="lng"]').val(m.pinData.longitude);
       $formWindow.show();
 
       //if I save changes, edit pin in database
@@ -54,7 +56,7 @@ function addPinToMap(pin) {
         e.preventDefault();
         $.ajax({
           type: "PUT",
-          url: `/api/pins/${pin.id}`,
+          url: `/api/pins/${m.pinData.id}`,
           // collect the serialized data from the form
           data: $form.serialize(),
           dataType: "json",
@@ -65,7 +67,6 @@ function addPinToMap(pin) {
             // take the new content from the form
             infoWindow.close();
             marker.pinData = response;
-            // window.location.reload();
           })
 
         });
@@ -75,7 +76,7 @@ function addPinToMap(pin) {
       $("#delete_pin_button").click((e) => {
         e.preventDefault();
         $.ajax({
-          url: `/api/pins/${pin.id}`,
+          url: `/api/pins/${m.pinData.id}`,
           type: "DELETE",})
           .done((data) => {
             console.log('deleted');
