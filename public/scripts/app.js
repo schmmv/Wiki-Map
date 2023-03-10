@@ -13,7 +13,9 @@ function addPinToMap(pin) {
     draggable: true,
     //* what does this mean?
     optimized: false,
-  })
+  });
+
+
   //when pin is clicked:
   marker.addListener("click", () => {
     //pop up info window
@@ -88,6 +90,11 @@ function initMapView() {
     zoom: mapData.zoom,
     center
   });
+  map.addListener('center_changed', e => {
+    const center = map.getCenter();
+    const url = "/?loc=" + [center.lat(), center.lng()].join(",");
+    window.history.replaceState(null , null, url);
+  });
 
   //**new stuff */
 
@@ -161,7 +168,7 @@ function initMapView() {
   const locationButton = document.createElement("button");
   locationButton.textContent = "Pan to Current Location";
   locationButton.classList.add("custom-map-control-button");
-  map.controls[google.maps.ControlPosition.TOP_RIGHT].push(locationButton);
+  map.controls[google.maps.ControlPosition.BOTTOM_LEFT].push(locationButton);
   locationButton.addEventListener("click", () => {
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
