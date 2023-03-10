@@ -5,7 +5,7 @@ let map, infoWindow, orphanMarker;
 
 function addPinToMap(pin) {
   console.log(pin);
-  const contentString = `<div id="info-window-content"><img width="100" src="${pin.image_url}"><h4>${pin.title}</h4><p>${pin.description}</p></div>`;
+
   const marker = new google.maps.Marker({
     position: { lat: pin.latitude, lng: pin.longitude },
     map: map,
@@ -15,11 +15,18 @@ function addPinToMap(pin) {
     optimized: false,
   });
 
+  marker.pinData = pin;
 
   //when pin is clicked:
   marker.addListener("click", () => {
     //pop up info window
     infoWindow.close();
+    console.log("this when marker is clicked:", this);
+    const contentString = `<div id="info-window-content">
+      <img width="100" src="${this.pinData.image_url}">
+      <h4>${this.pinData.title}</h4>
+      <p>${this.pinData.description}</p>
+    </div>`;
     infoWindow.setContent(contentString);
     infoWindow.open(marker.getMap(),marker);
 
@@ -55,8 +62,9 @@ function addPinToMap(pin) {
         .done((response) => {
             console.log('edited', response);
             $formWindow.hide();
-            infoWindow.hide();
-
+            // take the new content from the form
+            infoWindow.close();
+            marker.pinData = response;
             // window.location.reload();
           })
 
