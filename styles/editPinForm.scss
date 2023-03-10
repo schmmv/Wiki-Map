@@ -1,38 +1,61 @@
 @import '_helpers.scss';
 
-#map {
-  display: flex;
-  height: 80vh;
-  width: 100%;
-}
+
 body {
 
-  padding-top: 70px;
-  font-family: $font-family;
- background-color: $green;
+ padding-top: 70px;
+ font-family: $font-family;
+ background-color: $darker-blue;
+}
+
+#map {
+  display: flex;
+  height: 100vh;
+  width: 100%;
 }
 
 .pin-info-window {
   padding: 0.5em;
+  background-color: $lightest-blue;
+  opacity: 0.8;
+}
+
+.pin-info-container label {
+  color: rgb(5, 25, 45);
+  font-size: 20px;
+  opacity: 0.9;
+  margin: 0.5em;
 }
 
 .pin-info-container input[type=text] {
-  width: 40%;
+  width: 50%;
   padding: .5em;
   margin: 5px 0 15px 0;
   border: 1px black;
-  background: #f4f3f3;
+  background: #fff;
 }
 
 /* When the inputs get focus, do something */
 .pin-info-container input[type=text]:focus {
-  background-color: #ddd;
+  background-color: #fff;
   outline: none;
   border: 1px black;
+  box-shadow: 0 8px 11px  #657298;
+  cursor: pointer;
 }
 
-.pin-info-container > footer > button {
+.pin-info-container > footer  {
+  display: flex;
   border-radius: 3px;
   margin: 3px;
   padding: 10px 10px;
+  align-items: flex-start;
+
+}
+
+.pin-info-container > footer > button {
+  border-radius: 4px;
+  margin: 3px;
+  padding: 10px 10px;
+  background-color: #fff;
 }
